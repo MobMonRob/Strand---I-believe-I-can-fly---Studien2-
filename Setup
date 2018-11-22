@@ -1,16 +1,27 @@
 Installation instructions for Ubuntu 16.04 with ROS Kinetic and AirSim
 
+General Hints:
+`command` 	= command to execute in bash
+'directory' 	= path to directory
+<placeholder> 	= placeholder for specific path, NOT the actual path!
+
 Important links for development:
-- AirSim Repository & "Documentation": https://github.com/Microsoft/AirSim
-- ROS Kinetic Wiki: http://wiki.ros.org/kinetic
-- OpenCV Documentation: https://docs.opencv.org/3.4/index.html
+- AirSim Repository & "Documentation": 	https://github.com/Microsoft/AirSim
+- ROS Kinetic Wiki: 			http://wiki.ros.org/kinetic
+- OpenCV Documentation: 		https://docs.opencv.org/3.4/index.html
 
 Requirements:
 - Update Ubuntu via `sudo apt-get update && sudo apt-get upgrade`
-- Make sure Python 3 is installed. Type `python3` into the bash, python CLI should come up. Exit it by typing `exit()`
+- Make sure Python 3 is installed. Type `python3` into bash, python CLI should come up. Exit it by typing `exit()`.
+- Make sure Pip3 (package manager for Python) is installed. Type `pip3` into bash, pip help should show up. Otherwise install it via `sudo apt-get install -y python3-pip`.
 
 Installation:
 - Install AirSim & Unreal Engine, see https://github.com/Microsoft/AirSim/blob/master/docs/build_linux.md
 - Install ROS Kinetic, see http://wiki.ros.org/kinetic/Installation/Ubuntu
 - Install OpenCV for Python 3 including extended library (contrib package), `pip3 install opencv-python opencv-contrib-python`
 - Test webcam. `sudo apt-get install cheese`, `cheese` should show webcam feed. In case webcam can't be found by cheese check if webcam is disabled via keyboard. (MSI Laptop: FN + F6)
+- Install OpenPose until step 'OpenPose Configuration' (excluding this step), see https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/installation.md
+- Run `git submodule init && git submodule update` at <openpose root directory>
+- Continue with 'OpenPose Configuration', make sure to check BUILD_PYTHON in CMake-GUI
+- Run `sudo make install` at '<openpose root directory>/build/python'
+
