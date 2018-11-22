@@ -12,7 +12,7 @@ Important links for development:
 
 Requirements:
 - Update Ubuntu via `sudo apt-get update && sudo apt-get upgrade`
-- Make sure Python 3 is installed. Type `python3` into bash, python CLI should come up. Exit it by typing `exit()`.
+- Make sure Python 3 is installed. Type `python3 --version` into bash.
 - Make sure Pip3 (package manager for Python) is installed. Type `pip3` into bash, pip help should show up. Otherwise install it via `sudo apt-get install -y python3-pip`.
 
 Installation:
