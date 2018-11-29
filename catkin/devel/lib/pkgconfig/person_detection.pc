@@ -1,0 +1,8 @@
+prefix=/home/informatik/git/studienarbeit/i-believe-i-can-fly-v2/catkin/devel
+
+Name: person_detection
+Description: Description of person_detection
+Version: 0.0.0
+Cflags: -I/home/informatik/git/studienarbeit/i-believe-i-can-fly-v2/catkin/devel/include
+Libs: -L/home/informatik/git/studienarbeit/i-believe-i-can-fly-v2/catkin/devel/lib 
+Requires: roscpp rospy std_msgs message_runtime
