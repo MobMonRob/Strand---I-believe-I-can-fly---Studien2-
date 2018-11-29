@@ -1,2 +1,0 @@
-person_detection
--DCATKIN_DEVEL_PREFIX=/home/informatik/git/studienarbeit/i-believe-i-can-fly-v2/catkin/devel -DCMAKE_INSTALL_PREFIX=/home/informatik/git/studienarbeit/i-believe-i-can-fly-v2/catkin/install -G Unix Makefiles

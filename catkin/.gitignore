@@ -1,5 +1,12 @@
-.idea
+# IDE
+.idea/
 
+# Catkin
+build/
+devel/
 install/
+src/CMakeLists.txt
+.catkin_workspace
 
-build/install_manifest.txt
+# Python
+*.pyc
