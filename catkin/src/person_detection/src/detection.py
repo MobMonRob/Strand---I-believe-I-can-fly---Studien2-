@@ -2,17 +2,20 @@
 
 import cv2
 import rospy
+import os
 from videostream import VideoStream
 from openpose_runner import OpenPoseRunner
 from util import is_empty_or_none
 from person_detection.msg import Keypoint, Skeleton
 
 VIDEO_SOURCE = 0  # integer for webcam id, string for video file path
+DEBUGGING = False  # true = save images and keypoints to defined output folder and show keypoints in console, otherwise false
+DEBUGGING_OUTPUT_FOLDER = '/home/informatik/openpose/output'  # save images and keypoints at this folder
 
 # openpose configuration
 OPENPOSE_PARAMS = dict()
 OPENPOSE_PARAMS['installation_path'] = '/media/informatik/Linux-Daten/openpose'  # path to root directory of openpose
-OPENPOSE_PARAMS['print_keypoints'] = True
+OPENPOSE_PARAMS['print_keypoints'] = DEBUGGING
 OPENPOSE_PARAMS['show_skeleton'] = True
 OPENPOSE_PARAMS['logging_level'] = 3
 OPENPOSE_PARAMS['output_resolution'] = '-1x-1'
@@ -34,6 +37,14 @@ OPENPOSE_PARAMS['default_model_folder'] = OPENPOSE_PARAMS['installation_path'] +
 
 class Detection:
     def __init__(self, video_source, openpose_params):
+        # debugging only
+        if DEBUGGING:
+            if not os.path.exists(DEBUGGING_OUTPUT_FOLDER + '/images'):
+                os.makedirs(DEBUGGING_OUTPUT_FOLDER + '/images')
+            self.debugging_index = 0
+            self.file = open(DEBUGGING_OUTPUT_FOLDER + '/log', 'w')
+            self.file.write('[\n')
+
         # ROS
         rospy.init_node('person_detection')
         rospy.on_shutdown(self.shutdown)
@@ -58,6 +69,19 @@ class Detection:
                     # print('%s = X: %f, Y: %f with %i%% confidence' % (self.config['body_mapping'][index], keypoint[0], keypoint[1], keypoint[2] * 100))
         return Skeleton(keypoints = converted_keypoints)
 
+    def convert_keypoints_to_json(self, keypoints):
+        points = ''
+        if not is_empty_or_none(keypoints) and not is_empty_or_none(keypoints[0]):
+            for index, keypoint in enumerate(keypoints[0]):
+                if keypoint[0] != 0 or keypoint[1] != 0 or keypoint[2] != 0:
+                    if points is not '':
+                        points += ',\n'
+                    points += '      { "part": ' + str(index) + ', "description": "' + OPENPOSE_PARAMS['body_mapping'][
+                        index] + '", "x": ' + str(keypoint[0]) + ', "y": ' + str(
+                        keypoint[1]) + ', "accuracy": ' + str(keypoint[2]) + '}'
+        return '  { "index": ' + (
+            str(self.debugging_index) if DEBUGGING else '"unknown"') + ' ,\n    "points": [\n' + points + '\n    ]\n  }'
+
     def show_skeleton(self, image):
         cv2.namedWindow('Output', cv2.WINDOW_NORMAL)
         cv2.resizeWindow('Output', 1800, 1000)
@@ -75,11 +99,23 @@ class Detection:
         self.publisher.publish(skeleton)
 
     def image_analyzed_callback(self, keypoints, image):
+        # debugging only
+        if DEBUGGING:
+            if not is_empty_or_none(keypoints) and not is_empty_or_none(keypoints[0]):
+                cv2.imwrite(DEBUGGING_OUTPUT_FOLDER + '/images/' + str(self.debugging_index) + '.jpg', image)
+                keypoints_json = self.convert_keypoints_to_json(keypoints)
+                self.file.write(keypoints_json if self.debugging_index is 0 else ',\n' + keypoints_json)
+                self.debugging_index += 1
+
         self.publish(self.convert_keypoints_to_message(keypoints))
-        if self.config['show_skeleton']:
+        if DEBUGGING or self.config['show_skeleton']:
             self.show_skeleton(image)
 
     def shutdown(self):
+        # debugging only
+        if DEBUGGING:
+            self.file.write('\n]')
+            self.file.close()
         self.openpose_runner.stop()
 
 
