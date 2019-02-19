@@ -1,0 +1,3 @@
+<launch>
+    <node pkg="pose_detection" name="pose_detection" type="node.py" output="screen"></node>
+</launch>
