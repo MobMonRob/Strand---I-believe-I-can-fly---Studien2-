@@ -3,10 +3,14 @@
 import rospy
 from point import Point
 from skeleton import Skeleton
-from person_detection.msg import Skeleton as SkeletonMsg
+from pose import Pose
 from pose_detector import PoseDetector
+from person_detection.msg import Skeleton as SkeletonMsg
+from pose_detection.msg import Command as CommandMsg
 
 frame = 0
+publisher = None
+last_pose = None
 
 
 def return_number(number):
@@ -27,16 +31,27 @@ def detect_pose(skeleton):
         skeleton.transform_points()
         detector = PoseDetector(skeleton)
         pose = detector.detect_pose()
-        print(pose + " (frame " + str(skeleton.frame) + " with HD " +
-              return_number(detector.get_hand_distance()) + "/HG " + return_number(
-            detector.get_hand_gradient()) + "/SD " +
-              return_number(detector.get_shoulder_distance()) + "/HSD " + return_number(
-            detector.get_hand_to_shoulder_distance()) + ")")
+        publish_pose(pose)
+        rospy.loginfo('%s (frame %i with HD %s/HG %s/SD %s/HSD %s)', pose, skeleton.frame,
+                      return_number(detector.get_hand_distance()), return_number(
+                detector.get_hand_gradient()), return_number(detector.get_shoulder_distance()), return_number(
+                detector.get_hand_to_shoulder_distance()))
+
     else:
-        print('Skeleton at frame ' + str(frame) + ' is missing some points!')
+        publish_pose(Pose.HOLD)
+        rospy.logwarn('Skeleton at frame %i is missing some points!', frame)
+
+
+def publish_pose(pose):
+    global last_pose, publisher
+    if pose is not last_pose:
+        rospy.loginfo('Pose changed to %s', pose)
+        last_pose = pose
+        publisher.publish(CommandMsg(command = pose))
 
 
 if __name__ == '__main__':
     rospy.init_node('pose_parser')
-    rospy.Subscriber("person_detection", SkeletonMsg, detect_pose)
+    rospy.Subscriber('person_detection', SkeletonMsg, detect_pose)
+    publisher = rospy.Publisher('pose_detection', CommandMsg, queue_size = 10)
     rospy.spin()
