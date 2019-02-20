@@ -1,0 +1,5 @@
+<launch>
+	<node name="person_detection" 	pkg="person_detection" 	type="node.py" 	respawn="true" />
+	<node name="pose_detection" 	pkg="pose_detection" 	type="node.py" 	respawn="true" />
+	<node name="airsim_connector" 	pkg="airsim_connector" 	type="node.py" 	respawn="true" />
+</launch>
