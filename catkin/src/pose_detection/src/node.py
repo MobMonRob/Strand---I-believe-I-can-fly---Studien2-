@@ -15,7 +15,7 @@ last_pose = None
 
 def return_number(number):
     if number is None:
-        return "None"
+        return 'None'
     else:
         return str(round(number, 2))
 

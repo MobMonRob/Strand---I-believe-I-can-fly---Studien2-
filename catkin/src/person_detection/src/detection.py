@@ -40,7 +40,6 @@ class Detection:
             for index, keypoint in enumerate(keypoints[0]):
                 if keypoint[0] != 0 or keypoint[1] != 0 or keypoint[2] != 0:
                     converted_keypoints.append(self.convert_keypoint_to_message(index, keypoint))
-                    # print('%s = X: %f, Y: %f with %i%% confidence' % (self.config['body_mapping'][index], keypoint[0], keypoint[1], keypoint[2] * 100))
         return Skeleton(keypoints = converted_keypoints)
 
     def convert_keypoints_to_json(self, keypoints):
@@ -50,11 +49,11 @@ class Detection:
                 if keypoint[0] != 0 or keypoint[1] != 0 or keypoint[2] != 0:
                     if points is not '':
                         points += ','
-                    print(keypoint)
-                    points += '{"part": ' + str(index) + ', "description":"' + self.config['body_mapping'][
-                        index] + '","x":' + str(keypoint[0]) + ',"y":' + str(
-                        keypoint[1]) + ',"accuracy":' + str(keypoint[2]) + '}'
-        return '{"index":' + (str(self.debugging_index) if self.config['debugging'] else '"unknown"') + ',"points":[' + points + ']}'
+                    rospy.logdebug(keypoint)
+                    points += '{"part":{%d},"description":"{}","x":{%f},"y":{%f},"accuracy":{%f}}' \
+                        .format(index, self.config['body_mapping'][index], keypoint[0], keypoint[1], keypoint[2])
+        return '{"index":{},"points":[{}]}'.format(
+            (str(self.debugging_index) if self.config['debugging'] else '"unknown"'), points)
 
     def show_skeleton(self, image):
         cv2.namedWindow('Output', cv2.WINDOW_NORMAL)

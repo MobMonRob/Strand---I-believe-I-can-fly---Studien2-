@@ -12,8 +12,8 @@ class Point:
         self.desc = desc
 
     def __str__(self):
-        return "[x: " + str(self.x) + ", y: " + str(self.y) + ", acc: " + str(
-            int(self.acc * 100)) + "%" + ", index: " + str(self.index) + ", desc: " + str(self.desc) + "]"
+        return '[x: {}, y: {}, acc: {}%" + ", index: {}, desc: {}]'.format(self.x, self.y, int(self.acc * 100),
+                                                                           self.index, self.desc)
 
     def __repr__(self):
         return self.__str__()
