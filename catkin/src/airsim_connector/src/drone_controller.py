@@ -2,15 +2,20 @@
 
 import airsim
 import time
+import rospy
 
 
 class DroneController:
     def __init__(self):
-        self.client = airsim.MultirotorClient()
-        self.client.confirmConnection()
-        self.update_rate = 1
-        self.flying = False
-        self.next_action = None
+        try:
+            self.client = airsim.MultirotorClient()
+            self.client.confirmConnection()
+            self.update_rate = 1
+            self.flying = False
+            self.next_action = None
+        except:
+            rospy.logerr('Could not connect to running AirSim session! Is AirSim really running?')
+            rospy.signal_shutdown('AirSim not running!')
 
     def takeoff(self):
         self.client.enableApiControl(True)
