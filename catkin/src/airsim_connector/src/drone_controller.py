@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import airsim
-import rospy
 import time
 
 
@@ -14,42 +13,36 @@ class DroneController:
         self.next_action = None
 
     def takeoff(self):
-        rospy.loginfo('[DRONE] Performing takeoff...')
         self.client.enableApiControl(True)
         self.client.takeoffAsync(5).join()
         self.flying = True
-        rospy.loginfo('[DRONE] Takeoff finished')
 
     def land(self):
-        rospy.loginfo('[DRONE] Performing landing...')
         self.client.landAsync(5).join()
         self.client.enableApiControl(False)
         self.flying = False
-        rospy.loginfo('[DRONE] Landing finished')
 
     def forward(self):
-        rospy.loginfo('[DRONE] Forward')
-        self.set_next_action(self.client.moveByAngleThrottleAsync, 20, 0, 10, 0, self.update_rate)
-        rospy.loginfo('[DRONE] Forward finished')
+        self.set_next_action(self.client.moveByAngleThrottleAsync, -0.3, 0, 0.7, 0, self.update_rate)
 
     def hold(self):
         self.set_next_action(self.client.hoverAsync)
-        rospy.loginfo('[DRONE] Hold')
 
     def left(self):
-        rospy.loginfo('[DRONE] Left')
+        self.set_next_action(self.client.moveByAngleThrottleAsync, -0.1, -0.3, 0.75, -0.3, self.update_rate)
 
     def right(self):
-        rospy.loginfo('[DRONE] Right')
+        self.set_next_action(self.client.moveByAngleThrottleAsync, -0.1, 0.3, 0.75, 0.3, self.update_rate)
 
     def throttle_up(self):
-        rospy.loginfo('[DRONE] Throttle Up')
         self.reset_next_action()
         if not self.flying:
             self.takeoff()
+        else:
+            self.set_next_action(self.client.moveToZAsync, self.client.getPosition().z_val - 100, 5, self.update_rate)
 
     def throttle_down(self):
-        rospy.loginfo('[DRONE] Throttle down')
+        self.set_next_action(self.client.moveToZAsync, self.client.getPosition().z_val + 200, 5, self.update_rate)
 
     def set_next_action(self, function, *args):
         self.next_action = [function, args]
