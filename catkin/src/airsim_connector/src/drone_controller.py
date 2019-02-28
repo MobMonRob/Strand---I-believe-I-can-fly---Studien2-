@@ -57,10 +57,13 @@ class DroneController:
 
     def perform_action(self):
         if self.next_action is not None:
-            if self.next_action[1] is not None:
-                self.next_action[0](*self.next_action[1])
-            else:
-                self.next_action[0]()
+            try:
+                if self.next_action[1] is not None:
+                    self.next_action[0](*self.next_action[1])
+                else:
+                    self.next_action[0]()
+            except:
+                rospy.logerr('Could not perform specified action!')
         else:
             rospy.logwarn('No upcoming action specified! Waiting for new user input.')
         time.sleep(self.update_rate)
