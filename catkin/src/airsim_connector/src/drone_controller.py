@@ -61,4 +61,6 @@ class DroneController:
                 self.next_action[0](*self.next_action[1])
             else:
                 self.next_action[0]()
-            time.sleep(self.update_rate)
+        else:
+            rospy.logwarn('No upcoming action specified! Waiting for new user input.')
+        time.sleep(self.update_rate)
