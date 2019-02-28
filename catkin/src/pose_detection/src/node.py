@@ -51,7 +51,7 @@ def publish_pose(pose):
 
 
 if __name__ == '__main__':
-    rospy.init_node('pose_parser')
+    rospy.init_node('pose_detection', log_level = (rospy.DEBUG if rospy.get_param('/pose_detection/debug') else rospy.ERROR))
     rospy.Subscriber('person_detection', SkeletonMsg, detect_pose)
     publisher = rospy.Publisher('pose_detection', CommandMsg, queue_size = 10)
     rospy.spin()

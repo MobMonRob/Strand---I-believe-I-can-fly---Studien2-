@@ -12,7 +12,7 @@ def init_node():
         except:
             rospy.loginfo('Drone was not initialized at shutdown!')
 
-    rospy.init_node('airsim_connector')
+    rospy.init_node('airsim_connector', log_level = (rospy.DEBUG if rospy.get_param('/airsim_connector/debug') else rospy.ERROR))
     rospy.on_shutdown(on_shutdown)
     drone_controller = DroneController()
     communication_manager = CommunicationManager(drone_controller)

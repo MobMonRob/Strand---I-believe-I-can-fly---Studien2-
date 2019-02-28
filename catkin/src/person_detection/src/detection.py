@@ -21,7 +21,6 @@ class Detection:
             self.file.write('[\n')
 
         # ROS
-        rospy.init_node('person_detection')
         rospy.on_shutdown(self.shutdown)
         self.publisher = rospy.Publisher('person_detection', Skeleton, queue_size = 10)
 

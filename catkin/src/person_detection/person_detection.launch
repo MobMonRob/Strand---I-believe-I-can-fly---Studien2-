@@ -1,3 +1,6 @@
 <launch>
-    <node pkg="person_detection" name="person_detection" type="node.py" output="screen"></node>
+    <arg name="debug" default="false" />
+    <node pkg="person_detection" name="person_detection" type="node.py" output="screen">
+        <param name="debug" value="$(arg debug)" />
+    </node>
 </launch>

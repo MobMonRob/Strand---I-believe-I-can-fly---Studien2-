@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import rospy
 from detection import Detection
 
 VIDEO_SOURCE = 0  # integer for webcam id, string for video file path
@@ -10,7 +11,7 @@ OPENPOSE_PARAMS['debugging'] = False  # true = save images and keypoints to defi
 OPENPOSE_PARAMS['debugging_output'] = '/home/informatik/openpose/output'  # save images and keypoints at this folder
 OPENPOSE_PARAMS['installation_path'] = '/media/informatik/Linux-Daten/openpose'  # path to root directory of openpose
 OPENPOSE_PARAMS['print_keypoints'] = OPENPOSE_PARAMS['debugging']
-OPENPOSE_PARAMS['show_skeleton'] = True
+OPENPOSE_PARAMS['show_skeleton'] = rospy.get_param('/person_detection/debug')
 OPENPOSE_PARAMS['logging_level'] = 3
 OPENPOSE_PARAMS['output_resolution'] = '-1x-1'
 OPENPOSE_PARAMS['net_resolution'] = '-1x368'
@@ -29,4 +30,5 @@ OPENPOSE_PARAMS['disable_blending'] = False
 OPENPOSE_PARAMS['default_model_folder'] = OPENPOSE_PARAMS['installation_path'] + '/models/'
 
 if __name__ == '__main__':
+    rospy.init_node('person_detection', log_level = (rospy.DEBUG if rospy.get_param('/person_detection/debug') else rospy.ERROR))
     person_detection = Detection(VIDEO_SOURCE, OPENPOSE_PARAMS)

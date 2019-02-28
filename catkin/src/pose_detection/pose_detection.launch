@@ -1,3 +1,6 @@
 <launch>
-    <node pkg="pose_detection" name="pose_detection" type="node.py" output="screen"></node>
+    <arg name="debug" default="false" />
+    <node pkg="pose_detection" name="pose_detection" type="node.py" output="screen">
+        <param name="debug" value="$(arg debug)" />
+    </node>
 </launch>
