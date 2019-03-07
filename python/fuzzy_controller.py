@@ -126,7 +126,7 @@ flight_simulation.input['hand_gradient'] = 75
 try:
     flight_simulation.compute()
 except ValueError:
-    print 'No pose detected!'
+    print('No pose detected!')
     sys.exit()
 
 # Plot Output

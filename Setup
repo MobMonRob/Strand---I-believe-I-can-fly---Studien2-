@@ -24,4 +24,5 @@ Installation:
 - Run `git submodule init && git submodule update` at <openpose root directory>
 - Continue with 'OpenPose Configuration', make sure to check BUILD_PYTHON in CMake-GUI
 - Run `sudo make install` at '<openpose root directory>/build/python'
+- Install dependencies for ROS Python modules via `pip3 install matplotlib scikit-fuzzy`
 
