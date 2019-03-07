@@ -1,10 +1,13 @@
 <launch>
 	<arg name="debug" default="false" />
+	<arg name="mode" default="2D" />
+
 	<node name="person_detection" 	pkg="person_detection" 	type="node.py" 	respawn="true">
 		<param name="debug" value="$(arg debug)" />
 	</node>
 	<node name="pose_detection" 	pkg="pose_detection" 	type="node.py" 	respawn="true">
 		<param name="debug" value="$(arg debug)" />
+		<param name="mode" value="$(arg mode)" />
 	</node>
 	<node name="airsim_connector" 	pkg="airsim_connector" 	type="node.py" 	respawn="true">
 		<param name="debug" value="$(arg debug)" />

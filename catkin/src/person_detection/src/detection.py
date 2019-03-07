@@ -35,6 +35,8 @@ class Detection:
 
     def convert_keypoints_to_message(self, keypoints):
         converted_keypoints = []
+        # TODO: Check behaviour with multiple persons on the image. Which index is assigned to which person? Does the
+        #  same person always have the same index?
         if not is_empty_or_none(keypoints) and not is_empty_or_none(keypoints[0]):
             for index, keypoint in enumerate(keypoints[0]):
                 if keypoint[0] != 0 or keypoint[1] != 0 or keypoint[2] != 0:
