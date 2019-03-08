@@ -6,7 +6,14 @@ from communication_manager import CommunicationManager
 
 
 def init_node():
+    """
+    Initializes ROS node 'airsim_connector'.
+    """
+
     def on_shutdown():
+        """
+        Lands the drone when ROS node is shut down.
+        """
         try:
             drone_controller.land()
         except:
