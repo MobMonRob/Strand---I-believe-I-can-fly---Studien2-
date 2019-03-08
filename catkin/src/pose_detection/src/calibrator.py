@@ -53,7 +53,7 @@ class Calibrator2D:
         if self.avg_arm_length is None:
             rospy.logdebug('Average arm length could not be calculated!')
             return self.reset_calibration_started_at()
-        self.shoulder_distance = skeleton.get_shoulder_distance
+        self.shoulder_distance = skeleton.get_shoulder_distance()
         if self.shoulder_distance is None:
             rospy.logdebug('Shoulder distance could not be calculated!')
             return self.reset_calibration_started_at()
