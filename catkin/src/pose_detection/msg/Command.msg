@@ -1,2 +1,0 @@
-string command
-int16 intensity

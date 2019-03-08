@@ -11,7 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
 
 add_message_files(
   FILES
-    Command.msg
+    Instruction.msg
+    Instructions.msg
 )
 
 generate_messages(

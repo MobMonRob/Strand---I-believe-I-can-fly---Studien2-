@@ -8,16 +8,21 @@ from point import Point
 from skeleton import Skeleton
 from pose import Pose
 from person_detection.msg import Skeleton as SkeletonMsg
-from pose_detection.msg import Command as CommandMsg
+from pose_detection.msg import Instruction as InstructionMsg
+from pose_detection.msg import Instructions as InstructionsMsg
 
 calibrator_2D = Calibrator2D()
 fuzzy_controller_2D = FuzzyController2D()
 frame = 0
 publisher = None
-last_pose = None
 
 
 def return_number(number):
+    """
+    Returns number as string. If number is None, string 'None' is returned instead.
+    :param number: number to be converted as string
+    :return: number converted to string and round to 2 positions after decimal point or 'None' in case of given None
+    """
     if number is None:
         return 'None'
     else:
@@ -25,7 +30,15 @@ def return_number(number):
 
 
 def calibration_2D_finished(success, avg_arm_length, shoulder_distance):
-    if success:
+    """
+    Callback for the finished calibration process. Forwards the calibrated values to the actual Fuzzy Controller.
+    :param success: True if calibration was successful, otherwise False
+    :param avg_arm_length: calibrated average arm length
+    :param shoulder_distance: calibrated shoulder distance
+    """
+    global fuzzy_controller_2D
+
+    if success and fuzzy_controller_2D.calibrate(avg_arm_length, shoulder_distance):
         rospy.loginfo('Calibration finished successfully! Average arm length: %i, shoulder distance: %i',
                       avg_arm_length, shoulder_distance)
     else:
@@ -33,10 +46,14 @@ def calibration_2D_finished(success, avg_arm_length, shoulder_distance):
 
 
 def detect_pose_2D(skeleton_msg):
+    """
+    Controls the actual program flow from the calibration to the actual flight instruction publication.
+    :param skeleton_msg: Received skeleton message from the ROS node 'person_detection'.
+    """
     global frame, calibrator_2D
 
     frame += 1
-    keypoints = {}
+    keypoints = dict()
     for keypoint in skeleton_msg.keypoints:
         keypoints[keypoint.index] = Point(keypoint.x, keypoint.y, keypoint.accuracy, keypoint.index, keypoint.name)
     skeleton = Skeleton(frame, keypoints, 0.3)
@@ -49,23 +66,31 @@ def detect_pose_2D(skeleton_msg):
     elif calibrator_2D.is_calibrated():
         if skeleton.check_for_important_keypoints():
             skeleton.transform_points()
-            pose, intensity = fuzzy_controller_2D.detect_pose(skeleton)
-            rospy.loginfo('%s, intensity %i (frame %i with HD %s/HG %s/SD %s/HSD %s)', pose, intensity, skeleton.frame,
-                          return_number(skeleton.get_hand_distance()), return_number(
+            instructions = fuzzy_controller_2D.detect_pose(skeleton)
+            publish_instructions(instructions)
+            rospy.logdebug('%s, (frame %i with HD %s/HG %s/SD %s/HSD %s)', str(instructions), skeleton.frame,
+                           return_number(skeleton.get_hand_distance()), return_number(
                     skeleton.get_hand_gradient()), return_number(skeleton.get_shoulder_distance()), return_number(
                     skeleton.get_hand_to_shoulder_distance()))
         else:
-            publish_pose(Pose.HOLD)
+            publish_instructions({Pose.HOLD: 100.0})
             rospy.logwarn('Skeleton at frame %i is missing some important points!', frame)
 
 
-def publish_pose(pose, intensity = 0):
-    global last_pose, publisher
+def publish_instructions(instructions):
+    """
+    Publishes given flight instructions.
+    :param instructions: flight instructions to publish
+    """
+    global publisher
 
-    if pose is not last_pose:
-        rospy.loginfo('Pose changed to %s with intensity %i', pose, intensity)
-        last_pose = pose
-        publisher.publish(CommandMsg(command = pose, intensity = intensity))
+    if instructions is None:
+        return
+
+    converted_instructions = list()
+    for key in instructions:
+        converted_instructions.append(InstructionMsg(instruction = key, intensity = instructions[key]))
+    publisher.publish(InstructionsMsg(instructions = converted_instructions))
 
 
 if __name__ == '__main__':
@@ -76,5 +101,5 @@ if __name__ == '__main__':
     else:
         rospy.logerr('Invalid mode detected! Allowed values are: \'2D\'')
         sys.exit()
-    publisher = rospy.Publisher('pose_detection', CommandMsg, queue_size = 10)
+    publisher = rospy.Publisher('pose_detection', InstructionsMsg, queue_size = 10)
     rospy.spin()

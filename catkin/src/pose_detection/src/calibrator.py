@@ -5,6 +5,10 @@ import time
 
 
 class Calibrator2D:
+    """
+    This class is used to calibrate a 2D Fuzzy Controller.
+    """
+
     def __init__(self):
         self.calibrated = False
         self.calibrating = False
@@ -14,6 +18,13 @@ class Calibrator2D:
         self.shoulder_distance = None
 
     def start_calibration(self, skeleton, final_callback):
+        """
+        This method call starts the calibration process and resets the current calibration, in case the method is not
+        called for the first time.
+        :param skeleton: first skeleton to start calibration
+        :param final_callback: will be called as soon as the calibration is finished, 3 params: success (boolean),
+            calibrated average arm length (float) and calibrated shoulder distance (float)
+        """
         if not self.calibrated and not self.calibrating:
             self.final_callback = final_callback
             self.calibrating = True
@@ -25,6 +36,9 @@ class Calibrator2D:
             self.start_calibration(skeleton, final_callback)
 
     def reset_calibration(self):
+        """
+        Stops any calibration process and resets every internal saved value, including any save calibration.
+        """
         self.calibrated = False
         self.calibrating = False
         self.calibration_started_at = None
@@ -33,10 +47,18 @@ class Calibrator2D:
         self.shoulder_distance = None
 
     def reset_calibration_started_at(self):
-        rospy.loginfo('Calibration timer reset!')
+        """
+        Resets the time point when the first skeleton was successfully measured.
+        """
+        rospy.logwarn('Calibration timer reset!')
         self.calibration_started_at = None
 
     def skeleton_changed(self, skeleton):
+        """
+        Needs to be called for every available skeleton (frame) during the calibration process. Calibration requires 3
+        seconds of consecutive successfully parsed skeletons (frames) to be successful.
+        :param skeleton: skeleton to be parsed
+        """
         # Check if calibrator is actually calibrating, otherwise stop further operations
         if not self.calibrating or self.calibrated:
             rospy.logdebug('Calibration not running!')
@@ -82,17 +104,33 @@ class Calibrator2D:
                 self.final_callback(True, self.avg_arm_length, self.shoulder_distance)
 
     def is_calibrated(self):
+        """
+        Returns whether calibrator is in a calibrated state.
+        :return: True if calibrator is calibrated, otherwise False.
+        """
         return self.calibrated
 
     def is_calibrating(self):
+        """
+        Returns whether calibrator is currently calibrating.
+        :return: True if calibrator is currently calibrating, otherwise False.
+        """
         return self.calibrating
 
     def get_calibrated_avg_arm_length(self):
+        """
+        Returns calibrated average arm length.
+        :return: calibrated arm length in case calibration was successful, otherwise None
+        """
         if self.is_calibrated():
             return self.avg_arm_length
         return None
 
     def get_calibrated_shoulder_distance(self):
+        """
+        Returns calibrated shoulder distance.
+        :return: calibrated shoulder distance in case calibration was successful, otherwise None
+        """
         if self.is_calibrated():
             return self.shoulder_distance
         return None
