@@ -55,12 +55,12 @@ class CommunicationManager:
 
             if instruction.instruction == 'TURN_LEFT':
                 scaled_yaw = -1 * ((((instruction.intensity - 0.0) * (1.0 - 0.3)) / (100.0 - 0.0)) + 0.3)
-                scaled_roll = -1 * ((((instruction.intensity - 0.0) * (0.6 - 0.0)) / (100.0 - 0.0)) + 0.0)
+                scaled_roll = -1 * ((((instruction.intensity - 0.0) * (0.8 - 0.0)) / (100.0 - 0.0)) + 0.0)
                 self.instruction_builder.add_yaw(scaled_yaw)
                 self.instruction_builder.add_roll(scaled_roll)
             elif instruction.instruction == 'TURN_RIGHT':
                 scaled_yaw = (((instruction.intensity - 0.0) * (1.0 - 0.3)) / (100.0 - 0.0)) + 0.3
-                scaled_roll = (((instruction.intensity - 0.0) * (0.6 - 0.0)) / (100.0 - 0.0)) + 0.0
+                scaled_roll = (((instruction.intensity - 0.0) * (0.8 - 0.0)) / (100.0 - 0.0)) + 0.0
                 self.instruction_builder.add_yaw(scaled_yaw)
                 self.instruction_builder.add_roll(scaled_roll)
 
@@ -88,5 +88,5 @@ class CommunicationManager:
         elif calibration_msg.status == '2D_ARMS_NOT_STRETCHED':
             self.drone.print_message('Error during 2D-Calibration: Your arms are not fully stretched out! ' +
                                      'Please stretch both arms to the side with a 90 degree angle!', 2)
-        elif calibration_msg.status == 'FINISHED_2D':
+        elif calibration_msg.status == '2D_FINISHED':
             self.drone.print_message('2D-Calibration finished successfully!', 1)
