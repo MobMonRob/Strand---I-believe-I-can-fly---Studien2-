@@ -6,12 +6,11 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   airsim
-  person_detection
   pose_detection
 )
 
 catkin_package(
-  CATKIN_DEPENDS roscpp rospy std_msgs airsim person_detection pose_detection
+  CATKIN_DEPENDS roscpp rospy std_msgs airsim pose_detection
 )
 
 include_directories(
