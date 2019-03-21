@@ -8,13 +8,15 @@ from point import Point
 from skeleton import Skeleton
 from pose import Pose
 from person_detection.msg import Skeleton as SkeletonMsg
+from pose_detection.msg import Calibration as CalibrationMsg
 from pose_detection.msg import Instruction as InstructionMsg
 from pose_detection.msg import Instructions as InstructionsMsg
 
-calibrator_2D = Calibrator2D()
-fuzzy_controller_2D = FuzzyController2D()
+publisher_calibration = None
+publisher_instructions = None
+calibrator_2D = None
+fuzzy_controller_2D = None
 frame = 0
-publisher = None
 
 
 def return_number(number):
@@ -82,7 +84,7 @@ def publish_instructions(instructions):
     Publishes given flight instructions.
     :param instructions: flight instructions to publish
     """
-    global publisher
+    global publisher_instructions
 
     if instructions is None:
         return
@@ -90,16 +92,20 @@ def publish_instructions(instructions):
     converted_instructions = list()
     for key in instructions:
         converted_instructions.append(InstructionMsg(instruction = key, intensity = instructions[key]))
-    publisher.publish(InstructionsMsg(instructions = converted_instructions))
+    publisher_instructions.publish(InstructionsMsg(instructions = converted_instructions))
 
 
 if __name__ == '__main__':
     rospy.init_node('pose_detection',
                     log_level = (rospy.DEBUG if rospy.get_param('/pose_detection/debug') else rospy.ERROR))
+    publisher_instructions = rospy.Publisher('flight_instructions', InstructionsMsg, queue_size = 10)
+    publisher_calibration = rospy.Publisher('calibration_status', CalibrationMsg, queue_size = 10)
+    calibrator_2D = Calibrator2D(publisher_calibration)
+    fuzzy_controller_2D = FuzzyController2D()
+
     if rospy.get_param('/pose_detection/mode') == '2D':
         rospy.Subscriber('person_detection', SkeletonMsg, detect_pose_2D)
     else:
         rospy.logerr('Invalid mode detected! Allowed values are: \'2D\'')
         sys.exit()
-    publisher = rospy.Publisher('pose_detection', InstructionsMsg, queue_size = 10)
     rospy.spin()

@@ -9,7 +9,8 @@ class Calibrator2D:
     This class is used to calibrate a 2D Fuzzy Controller.
     """
 
-    def __init__(self):
+    def __init__(self, publisher):
+        self.publisher = publisher
         self.calibrated = False
         self.calibrating = False
         self.calibration_started_at = None
@@ -26,9 +27,9 @@ class Calibrator2D:
             calibrated average arm length (float) and calibrated shoulder distance (float)
         """
         if not self.calibrated and not self.calibrating:
+            rospy.logdebug('Calibration started!')
             self.final_callback = final_callback
             self.calibrating = True
-            rospy.logdebug('Calibration started!')
             self.skeleton_changed(skeleton)
         elif self.calibrated:
             # Recalibrate in case there was already a calibration and this method is called again
@@ -51,6 +52,7 @@ class Calibrator2D:
         Resets the time point when the first skeleton was successfully measured.
         """
         rospy.logwarn('Calibration timer reset!')
+        self.publish_status('2D_RESET_TIMER')
         self.calibration_started_at = None
 
     def skeleton_changed(self, skeleton):
@@ -67,6 +69,7 @@ class Calibrator2D:
         # Check skeleton for important points and transform coordinates in case skeleton is fine.
         if not skeleton.check_for_important_keypoints():
             rospy.logdebug('Missing important skeleton points!')
+            self.publish_status('2D_MISSING_POINTS')
             return self.reset_calibration_started_at()
         skeleton.transform_points()
 
@@ -85,15 +88,18 @@ class Calibrator2D:
         hand_to_shoulder_distance = skeleton.get_hand_to_shoulder_distance()
         if hand_to_shoulder_distance is None or not (-100 < hand_to_shoulder_distance < 100):
             rospy.logdebug('Arms are not on the same level as the shoulders are!')
+            self.publish_status('2D_ARMS_NOT_ON_SHOULDER_HEIGHT')
             return self.reset_calibration_started_at()
         hand_distance = skeleton.get_hand_distance()
         if hand_distance is None or hand_distance < (skeleton.get_total_arm_length() * 0.9):
             rospy.logdebug('Arms are not stretched out!')
+            self.publish_status('2D_ARMS_NOT_STRETCHED')
             return self.reset_calibration_started_at()
 
         # Set calibration start time point if it is not already set to mark first successful calibration frame
         if self.calibration_started_at is None:
             rospy.logdebug('Starting calibration timer.')
+            self.publish_status('2D_STARTED')
             self.calibration_started_at = int(time.time())
         # Stop calibration if calibration was successful for last 3 seconds
         elif int(time.time()) - self.calibration_started_at > 3:
@@ -102,6 +108,7 @@ class Calibrator2D:
             # Notify original caller about successful calibration
             if self.final_callback is not None:
                 self.final_callback(True, self.avg_arm_length, self.shoulder_distance)
+                self.publish_status('2D_FINISHED')
 
     def is_calibrated(self):
         """
@@ -134,3 +141,6 @@ class Calibrator2D:
         if self.is_calibrated():
             return self.shoulder_distance
         return None
+
+    def publish_status(self, status):
+        self.publisher.publish(status = status)
