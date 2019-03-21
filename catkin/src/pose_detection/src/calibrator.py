@@ -143,4 +143,8 @@ class Calibrator2D:
         return None
 
     def publish_status(self, status):
+        """
+        Publishes the given status message on the configured channel.
+        :param status: status message to be published
+        """
         self.publisher.publish(status = status)

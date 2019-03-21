@@ -19,6 +19,27 @@ fuzzy_controller_2D = None
 frame = 0
 
 
+def init_node():
+    """
+    Initializes ROS node 'pose_detection'.
+    """
+    global publisher_calibration, publisher_instructions, calibrator_2D, fuzzy_controller_2D
+
+    rospy.init_node('pose_detection',
+                    log_level = (rospy.DEBUG if rospy.get_param('/pose_detection/debug') else rospy.ERROR))
+    publisher_instructions = rospy.Publisher('flight_instructions', InstructionsMsg, queue_size = 10)
+    publisher_calibration = rospy.Publisher('calibration_status', CalibrationMsg, queue_size = 10)
+    calibrator_2D = Calibrator2D(publisher_calibration)
+    fuzzy_controller_2D = FuzzyController2D()
+
+    if rospy.get_param('/pose_detection/mode') == '2D':
+        rospy.Subscriber('person_detection', SkeletonMsg, detect_pose_2D)
+    else:
+        rospy.logerr('Invalid mode detected! Allowed values are: \'2D\'')
+        sys.exit()
+    rospy.spin()
+
+
 def return_number(number):
     """
     Returns number as string. If number is None, string 'None' is returned instead.
@@ -96,16 +117,4 @@ def publish_instructions(instructions):
 
 
 if __name__ == '__main__':
-    rospy.init_node('pose_detection',
-                    log_level = (rospy.DEBUG if rospy.get_param('/pose_detection/debug') else rospy.ERROR))
-    publisher_instructions = rospy.Publisher('flight_instructions', InstructionsMsg, queue_size = 10)
-    publisher_calibration = rospy.Publisher('calibration_status', CalibrationMsg, queue_size = 10)
-    calibrator_2D = Calibrator2D(publisher_calibration)
-    fuzzy_controller_2D = FuzzyController2D()
-
-    if rospy.get_param('/pose_detection/mode') == '2D':
-        rospy.Subscriber('person_detection', SkeletonMsg, detect_pose_2D)
-    else:
-        rospy.logerr('Invalid mode detected! Allowed values are: \'2D\'')
-        sys.exit()
-    rospy.spin()
+    init_node()

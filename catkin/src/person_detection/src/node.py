@@ -2,6 +2,7 @@
 
 import rospy
 from detection import Detection
+from person_detection.msg import Skeleton as SkeletonMsg
 
 VIDEO_SOURCE = 0  # integer for webcam id, string for video file path
 
@@ -29,6 +30,19 @@ OPENPOSE_PARAMS['num_gpu_start'] = 0
 OPENPOSE_PARAMS['disable_blending'] = False
 OPENPOSE_PARAMS['default_model_folder'] = OPENPOSE_PARAMS['installation_path'] + '/models/'
 
+
+def init_node():
+    """
+    Initializes ROS node 'person_detection'.
+    """
+    global VIDEO_SOURCE, OPENPOSE_PARAMS
+
+    rospy.init_node('person_detection',
+                    log_level = (rospy.DEBUG if rospy.get_param('/person_detection/debug') else rospy.ERROR))
+    publisher = rospy.Publisher('person_detection', SkeletonMsg, queue_size = 10)
+    detection = Detection(VIDEO_SOURCE, OPENPOSE_PARAMS, publisher)
+    rospy.on_shutdown(detection.shutdown)
+
+
 if __name__ == '__main__':
-    rospy.init_node('person_detection', log_level = (rospy.DEBUG if rospy.get_param('/person_detection/debug') else rospy.ERROR))
-    person_detection = Detection(VIDEO_SOURCE, OPENPOSE_PARAMS)
+    init_node()
