@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import cv2
+import math
 import rospy
 import os
 from videostream import VideoStream
@@ -34,6 +35,37 @@ class Detection:
         self.openpose_runner = OpenPoseRunner(self.config, self.stream, self.image_analyzed_callback)
         self.openpose_runner.start()
 
+    def get_closest_skeleton_to(self, skeletons, x, y):
+        """
+        Returns the closest skeleton in comparison to the given coordinates.
+        :param skeletons: array of skeletons
+        :param x: x coordinate to which the distance should be measured
+        :param y: y coordinate to which the distance should be measured
+        :return: skeleton which is the closest one of the given skeletons in comparison to the given coordinates, None
+          in case no skeleton is given
+        """
+        if is_empty_or_none(skeletons):
+            return None
+
+        most_centered_index = None
+        most_centered_distance = None
+        skeletons_amount = len(skeletons)
+        if skeletons_amount is 1:
+            return skeletons[0] if not is_empty_or_none(skeletons[0]) else None
+
+        rospy.logdebug('Found multiple (' + str(skeletons_amount) + ') skeletons!')
+        for index in range(skeletons_amount):
+            if is_empty_or_none(skeletons[index]):
+                continue
+            hip = skeletons[index][8]
+            distance_to_center = math.sqrt((float(x - hip[0]) ** 2) + (float(y - hip[1]) ** 2))
+            if most_centered_index is None or distance_to_center < most_centered_distance:
+                most_centered_index = index
+                most_centered_distance = distance_to_center
+        rospy.logdebug('Chose skeleton with index %i as it is the most centered one with a distance of %i pixels!',
+                       most_centered_index, int(most_centered_distance))
+        return skeletons[most_centered_index]
+
     def convert_keypoint_to_message(self, index, keypoint):
         """
         Converts a single keypoint to a ROS message.
@@ -51,10 +83,8 @@ class Detection:
         :return: ROS message (type Skeleton) containing all keypoints
         """
         converted_keypoints = []
-        # TODO: Check behaviour with multiple persons on the image. Which index is assigned to which person? Does the
-        #  same person always have the same index?
-        if not is_empty_or_none(keypoints) and not is_empty_or_none(keypoints[0]):
-            for index, keypoint in enumerate(keypoints[0]):
+        if not is_empty_or_none(keypoints):
+            for index, keypoint in enumerate(keypoints):
                 if keypoint[0] != 0 or keypoint[1] != 0 or keypoint[2] != 0:
                     converted_keypoints.append(self.convert_keypoint_to_message(index, keypoint))
         return SkeletonMsg(keypoints = converted_keypoints)
@@ -67,8 +97,8 @@ class Detection:
         :return: JSON containing all keypoints
         """
         points = ''
-        if not is_empty_or_none(keypoints) and not is_empty_or_none(keypoints[0]):
-            for index, keypoint in enumerate(keypoints[0]):
+        if not is_empty_or_none(keypoints):
+            for index, keypoint in enumerate(keypoints):
                 if keypoint[0] != 0 or keypoint[1] != 0 or keypoint[2] != 0:
                     if points is not '':
                         points += ','
@@ -95,7 +125,7 @@ class Detection:
                         (255, 255, 255),
                         1)
         else:
-            cv2.moveWindow('Output', 0, 1000)
+            cv2.moveWindow('Input', 0, 1000)
             image = cv2.flip(image, 1)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             self.openpose_runner.stop()
@@ -108,22 +138,24 @@ class Detection:
         """
         self.publisher.publish(skeleton)
 
-    def image_analyzed_callback(self, keypoints, image):
+    def image_analyzed_callback(self, skeletons, image):
         """
         Used as callback when neutral net finishes processing of a single frame. Transforms the detected keypoints,
         publishes them to other ROS nodes and shows them to the user in case the node is started in debugging mode.
-        :param keypoints: detected keypoints
+        :param skeletons: detected skeletons
         :param image: image containing the analyzed (original) image and the detected skeleton as an overlay
         """
+        most_centered_skeleton = self.get_closest_skeleton_to(skeletons, image.shape[1] / 2, image.shape[0] / 2)
+
         # debugging only
         if self.config['debugging']:
-            if not is_empty_or_none(keypoints) and not is_empty_or_none(keypoints[0]):
+            if not is_empty_or_none(most_centered_skeleton):
                 cv2.imwrite(self.config['debugging_output'] + '/images/' + str(self.debugging_index) + '.jpg', image)
-                keypoints_json = self.convert_keypoints_to_json(keypoints)
+                keypoints_json = self.convert_keypoints_to_json(most_centered_skeleton)
                 self.file.write(keypoints_json if self.debugging_index is 0 else ',\n' + keypoints_json)
                 self.debugging_index += 1
 
-        self.publish(self.convert_keypoints_to_message(keypoints))
+        self.publish(self.convert_keypoints_to_message(most_centered_skeleton))
         if self.config['debugging'] or self.config['show_skeleton'] or self.config['showcase']:
             self.show_skeleton(image)
 

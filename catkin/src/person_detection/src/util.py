@@ -7,4 +7,4 @@ def is_empty_or_none(array):
     :param array: array to check
     :return: True if array is None or empty, otherwise False.
     """
-    return object is None or len(array) == 0
+    return array is None or len(array) == 0
