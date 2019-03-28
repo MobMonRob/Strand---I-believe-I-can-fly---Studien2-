@@ -25,19 +25,19 @@ class DroneController:
             rospy.logerr('Could not connect to running AirSim session! Is an AirSim environment really running?')
             rospy.signal_shutdown('AirSim is not running!')
 
-    def takeoff(self):
+    def takeoff(self, duration = 3):
         """
         Performs takeoff maneuver and updates flying status afterwards.
         """
         self.client.enableApiControl(True)
-        self.client.takeoffAsync(5).join()
+        self.client.takeoffAsync(duration).join()
         self.flying = True
 
-    def land(self):
+    def land(self, duration = 3):
         """
         Performs landing maneuver and updates flying status afterwards.
         """
-        self.client.landAsync(5).join()
+        self.client.landAsync(duration).join()
         self.client.enableApiControl(False)
         self.flying = False
 
@@ -103,3 +103,9 @@ class DroneController:
         :param severity: severity of the message. 0 (default, info), 1 (success), 2 (error), 3 (unknown)
         """
         self.client.simPrintLogMessage(message, severity = severity)
+
+    def release_control(self):
+        """
+        Releases API control of drone.
+        """
+        self.client.enableApiControl(False)

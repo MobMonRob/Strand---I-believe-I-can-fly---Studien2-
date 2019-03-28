@@ -12,19 +12,22 @@ def init_node():
 
     def on_shutdown():
         """
-        Lands the drone when ROS node is shut down.
+        Lands the drone when ROS node is shut down. Do NOT wait for it's execution to shutdown node immediately.
         """
         try:
-            drone_controller.land()
+            rospy.loginfo('Release API control of drone as node is shutdown!')
+            drone_controller.release_control()
         except:
             rospy.loginfo('Drone was not initialized at shutdown!')
 
-    rospy.init_node('airsim_connector', log_level = (rospy.DEBUG if rospy.get_param('/airsim_connector/debug') else rospy.ERROR))
+    rospy.init_node('airsim_connector',
+                    log_level = (rospy.DEBUG if rospy.get_param('/airsim_connector/debug') else rospy.ERROR))
     rospy.on_shutdown(on_shutdown)
     drone_controller = DroneController()
     communication_manager = CommunicationManager(drone_controller)
     communication_manager.start_listening()
     while not rospy.is_shutdown():
+        rospy.logdebug('Performing next action')
         drone_controller.perform_action()
 
 
