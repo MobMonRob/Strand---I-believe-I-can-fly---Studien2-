@@ -44,14 +44,15 @@ class CommunicationManager:
                 scaled_throttle = (((instruction.intensity - 0.0) * (1.0 - 0.5)) / (100.0 - 0.0)) + 0.5
                 self.instruction_builder.add_throttle(scaled_throttle)
             elif instruction.instruction == 'THROTTLE_DOWN':
-                scaled_throttle = (((instruction.intensity - 0.0) * (0.5 - 0.0)) / (100.0 - 0.0)) + 0.0
+                scaled_throttle = (((instruction.intensity - 0.0) * (0.2 - 0.0)) / (100.0 - 0.0)) + 0.0
                 self.instruction_builder.add_throttle(scaled_throttle)
             else:
                 self.instruction_builder.add_throttle(0.7)
 
             if instruction.instruction == 'FORWARD':
-                scaled_pitch = -1.0 * ((((instruction.intensity - 0.0) * (0.7 - 0.1)) / (100.0 - 0.0)) + 0.1)
+                scaled_pitch = -1.0 * ((((instruction.intensity - 0.0) * (0.5 - 0.1)) / (100.0 - 0.0)) + 0.1)
                 self.instruction_builder.add_pitch(scaled_pitch)
+                self.instruction_builder.add_throttle(-0.1)
 
             if instruction.instruction == 'TURN_LEFT':
                 scaled_yaw = -1 * ((((instruction.intensity - 0.0) * (1.0 - 0.3)) / (100.0 - 0.0)) + 0.3)
