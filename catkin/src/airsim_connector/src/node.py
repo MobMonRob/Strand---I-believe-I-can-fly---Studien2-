@@ -19,6 +19,7 @@ def init_node():
             drone_controller.release_control()
         except:
             rospy.loginfo('Drone was not initialized at shutdown!')
+            rospy.signal_shutdown('Shutdown airsim_connector node')
 
     rospy.init_node('airsim_connector',
                     log_level = (rospy.DEBUG if rospy.get_param('/airsim_connector/debug') else rospy.ERROR))
