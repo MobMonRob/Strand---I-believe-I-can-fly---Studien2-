@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import rospy
 import sys
 
 sys.path.append('/usr/local/python/openpose')
@@ -74,9 +75,7 @@ class OpenPoseRunner:
         Starts main loop for image processing which processes a new frame every loop and calls back every registered
         callback.
         """
-        while True:
-            if not self.is_running():
-                return
+        while not rospy.is_shutdown():
             self.calculate_frame()
             for callback in self.callbacks:
                 callback(self.keypoints, self.image)
