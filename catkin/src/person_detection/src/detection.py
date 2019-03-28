@@ -86,16 +86,20 @@ class Detection:
         :param image: image to be shown
         """
         cv2.namedWindow('Output', cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Output', 1800, 1000)
-        cv2.putText(image, 'Press q to quit the program!',
-                    (0, 20),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    0.5,
-                    (255, 255, 255),
-                    1)
-        cv2.imshow('Output', image)
+        if not self.config['showcase']:
+            cv2.resizeWindow('Output', 1800, 1000)
+            cv2.putText(image, 'Press q to quit the program!',
+                        (0, 20),
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        0.5,
+                        (255, 255, 255),
+                        1)
+        else:
+            cv2.moveWindow('Output', 0, 1000)
+            image = cv2.flip(image, 1)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             self.openpose_runner.stop()
+        cv2.imshow('Output', image)
 
     def publish(self, skeleton):
         """
@@ -120,7 +124,7 @@ class Detection:
                 self.debugging_index += 1
 
         self.publish(self.convert_keypoints_to_message(keypoints))
-        if self.config['debugging'] or self.config['show_skeleton']:
+        if self.config['debugging'] or self.config['show_skeleton'] or self.config['showcase']:
             self.show_skeleton(image)
 
     def shutdown(self):

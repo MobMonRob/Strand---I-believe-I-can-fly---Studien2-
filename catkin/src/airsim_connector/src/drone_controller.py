@@ -83,6 +83,8 @@ class DroneController:
         Updates the drones instructions to the last saved flight maneuver and sleeps for the configured time.
         """
         if self.next_action is not None:
+            if not self.client.isApiControlEnabled():
+                self.client.enableApiControl(True)
             try:
                 if self.next_action[1] is not None:
                     self.next_action[0](*self.next_action[1])

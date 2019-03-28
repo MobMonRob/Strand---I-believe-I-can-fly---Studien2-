@@ -1,0 +1,13 @@
+<launch>
+	<node name="person_detection" 	pkg="person_detection" 	type="node.py" 	respawn="true">
+		<param name="showcase" value="true" />
+		<param name="debug" value="false" />
+	</node>
+	<node name="pose_detection" 	pkg="pose_detection" 	type="node.py" 	respawn="true">
+		<param name="debug" value="false" />
+		<param name="mode" value="2D" />
+	</node>
+	<node name="airsim_connector" 	pkg="airsim_connector" 	type="node.py" 	respawn="true">
+		<param name="debug" value="false" />
+	</node>
+</launch>

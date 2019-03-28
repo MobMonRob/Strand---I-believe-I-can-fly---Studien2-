@@ -13,6 +13,7 @@ OPENPOSE_PARAMS['debugging_output'] = '/home/informatik/openpose/output'  # save
 OPENPOSE_PARAMS['installation_path'] = '/media/informatik/Linux-Daten/openpose'  # path to root directory of openpose
 OPENPOSE_PARAMS['print_keypoints'] = OPENPOSE_PARAMS['debugging']
 OPENPOSE_PARAMS['show_skeleton'] = rospy.get_param('/person_detection/debug')
+OPENPOSE_PARAMS['showcase'] = rospy.get_param('/person_detection/showcase')
 OPENPOSE_PARAMS['logging_level'] = 3
 OPENPOSE_PARAMS['output_resolution'] = '-1x-1'
 OPENPOSE_PARAMS['net_resolution'] = '-1x368'
