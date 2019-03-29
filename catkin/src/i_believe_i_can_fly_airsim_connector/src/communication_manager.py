@@ -2,8 +2,8 @@
 
 import rospy
 from airsim_instruction_builder import AirsimInstructionBuilder
-from pose_detection.msg import Calibration as CalibrationMsg
-from pose_detection.msg import Instructions as InstructionsMsg
+from i_believe_i_can_fly_pose_detection.msg import Calibration as CalibrationMsg
+from i_believe_i_can_fly_pose_detection.msg import Instructions as InstructionsMsg
 
 
 class CommunicationManager:

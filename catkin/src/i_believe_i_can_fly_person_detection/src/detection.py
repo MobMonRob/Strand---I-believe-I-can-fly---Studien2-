@@ -7,8 +7,8 @@ import os
 from videostream import VideoStream
 from openpose_runner import OpenPoseRunner
 from util import is_empty_or_none
-from person_detection.msg import Keypoint as KeypointMsg
-from person_detection.msg import Skeleton as SkeletonMsg
+from i_believe_i_can_fly_person_detection.msg import Keypoint as KeypointMsg
+from i_believe_i_can_fly_person_detection.msg import Skeleton as SkeletonMsg
 
 
 class Detection:

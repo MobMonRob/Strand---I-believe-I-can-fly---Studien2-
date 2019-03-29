@@ -1,6 +1,0 @@
-<launch>
-    <arg name="debug" default="false" />
-    <node pkg="airsim_connector" name="airsim_connector" type="node.py" output="screen">
-        <param name="debug" value="$(arg debug)" />
-    </node>
-</launch>

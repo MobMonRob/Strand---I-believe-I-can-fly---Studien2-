@@ -7,7 +7,7 @@ from communication_manager import CommunicationManager
 
 def init_node():
     """
-    Initializes ROS node 'airsim_connector'.
+    Initializes ROS node 'i_believe_i_can_fly_airsim_connector'.
     """
 
     def on_shutdown():
@@ -19,16 +19,15 @@ def init_node():
             drone_controller.release_control()
         except:
             rospy.loginfo('Drone was not initialized at shutdown!')
-            rospy.signal_shutdown('Shutdown airsim_connector node')
+            rospy.signal_shutdown('Shutdown i_believe_i_can_fly_airsim_connector node')
 
-    rospy.init_node('airsim_connector',
-                    log_level = (rospy.DEBUG if rospy.get_param('/airsim_connector/debug') else rospy.ERROR))
+    rospy.init_node('i_believe_i_can_fly_airsim_connector',
+                    log_level = (rospy.DEBUG if rospy.get_param('/i_believe_i_can_fly_airsim_connector/debug') else rospy.ERROR))
     rospy.on_shutdown(on_shutdown)
     drone_controller = DroneController()
     communication_manager = CommunicationManager(drone_controller)
     communication_manager.start_listening()
     while not rospy.is_shutdown():
-        rospy.logdebug('Performing next action')
         drone_controller.perform_action()
 
 

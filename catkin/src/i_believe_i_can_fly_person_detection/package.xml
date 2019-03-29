@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-    <name>airsim_connector</name>
+    <name>i_believe_i_can_fly_person_detection</name>
     <version>0.0.0</version>
-    <description>Controls Airsim (drone simulator) via received poses.</description>
+    <description>Detects persons skeletons using simple 2D webcam by implementing OpenPose library.</description>
 
     <maintainer email="kohlberg.henri@student.dhbw-karlsruhe.de">Henri Kohlberg</maintainer>
 
@@ -15,23 +15,16 @@
 
     <buildtool_depend>catkin</buildtool_depend>
 
-    <build_depend>roscpp</build_depend>
     <build_depend>rospy</build_depend>
     <build_depend>std_msgs</build_depend>
-    <build_depend>airsim</build_depend>
-    <build_depend>pose_detection</build_depend>
+    <build_depend>message_generation</build_depend>
 
-    <build_export_depend>roscpp</build_export_depend>
     <build_export_depend>rospy</build_export_depend>
     <build_export_depend>std_msgs</build_export_depend>
-    <build_export_depend>airsim</build_export_depend>
-    <build_export_depend>pose_detection</build_export_depend>
 
-    <exec_depend>roscpp</exec_depend>
     <exec_depend>rospy</exec_depend>
     <exec_depend>std_msgs</exec_depend>
-    <exec_depend>airsim</exec_depend>
-    <exec_depend>pose_detection</exec_depend>
+    <exec_depend>message_runtime</exec_depend>
 
     <export>
 

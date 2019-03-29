@@ -2,7 +2,7 @@
 
 import rospy
 from detection import Detection
-from person_detection.msg import Skeleton as SkeletonMsg
+from i_believe_i_can_fly_person_detection.msg import Skeleton as SkeletonMsg
 
 VIDEO_SOURCE = 0  # integer for webcam id, string for video file path
 
@@ -12,8 +12,8 @@ OPENPOSE_PARAMS['debugging'] = False  # true = save images and keypoints to defi
 OPENPOSE_PARAMS['debugging_output'] = '/home/informatik/openpose/output'  # save images and keypoints at this folder
 OPENPOSE_PARAMS['installation_path'] = '/media/informatik/Linux-Daten/openpose'  # path to root directory of openpose
 OPENPOSE_PARAMS['print_keypoints'] = OPENPOSE_PARAMS['debugging']
-OPENPOSE_PARAMS['show_skeleton'] = rospy.get_param('/person_detection/debug')
-OPENPOSE_PARAMS['showcase'] = rospy.get_param('/person_detection/showcase')
+OPENPOSE_PARAMS['show_skeleton'] = rospy.get_param('/i_believe_i_can_fly_person_detection/debug')
+OPENPOSE_PARAMS['showcase'] = rospy.get_param('/i_believe_i_can_fly_person_detection/showcase')
 OPENPOSE_PARAMS['logging_level'] = 3
 OPENPOSE_PARAMS['output_resolution'] = '-1x-1'
 OPENPOSE_PARAMS['net_resolution'] = '-1x368'
@@ -34,12 +34,12 @@ OPENPOSE_PARAMS['default_model_folder'] = OPENPOSE_PARAMS['installation_path'] +
 
 def init_node():
     """
-    Initializes ROS node 'person_detection'.
+    Initializes ROS node 'i_believe_i_can_fly_person_detection'.
     """
     global VIDEO_SOURCE, OPENPOSE_PARAMS
 
-    rospy.init_node('person_detection',
-                    log_level = (rospy.DEBUG if rospy.get_param('/person_detection/debug') else rospy.ERROR))
+    rospy.init_node('i_believe_i_can_fly_person_detection',
+                    log_level = (rospy.DEBUG if rospy.get_param('/i_believe_i_can_fly_person_detection/debug') else rospy.ERROR))
     publisher = rospy.Publisher('person_detection', SkeletonMsg, queue_size = 10)
     detection = Detection(VIDEO_SOURCE, OPENPOSE_PARAMS, publisher)
     rospy.on_shutdown(detection.shutdown)

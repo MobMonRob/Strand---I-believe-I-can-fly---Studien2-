@@ -1,7 +1,7 @@
 <launch>
     <arg name="debug" default="false" />
     <arg name="showcase" default="false" />
-    <node pkg="person_detection" name="person_detection" type="node.py" output="screen">
+    <node pkg="i_believe_i_can_fly_person_detection" name="i_believe_i_can_fly_person_detection" type="node.py" output="screen">
         <param name="debug" value="$(arg debug)" />
         <param name="showcase" value="$(arg showcase)" />
     </node>

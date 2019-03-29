@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(pose_detection)
+project(i_believe_i_can_fly_pose_detection)
 
 find_package(catkin REQUIRED COMPONENTS
-  roscpp
   rospy
   std_msgs
   message_generation
-  person_detection
+  i_believe_i_can_fly_person_detection
 )
 
 add_message_files(
@@ -22,7 +21,11 @@ generate_messages(
 )
 
 catkin_package(
-  CATKIN_DEPENDS roscpp rospy std_msgs message_runtime person_detection
+  CATKIN_DEPENDS
+  rospy
+  std_msgs
+  message_runtime
+  i_believe_i_can_fly_person_detection
 )
 
 include_directories(
