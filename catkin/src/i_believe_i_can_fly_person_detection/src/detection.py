@@ -9,6 +9,7 @@ from openpose_runner import OpenPoseRunner
 from util import is_empty_or_none
 from i_believe_i_can_fly_person_detection.msg import Keypoint as KeypointMsg
 from i_believe_i_can_fly_person_detection.msg import Skeleton as SkeletonMsg
+from i_believe_i_can_fly_common.msg import Reset as ResetMsg
 
 
 class Detection:
@@ -111,8 +112,9 @@ class Detection:
     def show_skeleton(self, image):
         """
         Only used for debugging or demo purposes.
-        Shows an image to the user. In case users presses the 'q' key, program will stop further person detection and
-        shuts down ROS node.
+        Shows an image to the user. Multiple shortcuts available:
+            'q': program will stop further person detection and shuts down ROS node
+            'r': program will reset the calibration and the drones position
         :param image: image to be shown
         """
         cv2.namedWindow('Output', cv2.WINDOW_NORMAL)
@@ -125,10 +127,21 @@ class Detection:
                         (255, 255, 255),
                         1)
         else:
-            cv2.moveWindow('Input', 0, 1000)
             image = cv2.flip(image, 1)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            self.openpose_runner.stop()
+            cv2.putText(image, 'R -> Reset calibration',
+                        (10, 40),
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        1.5,
+                        (255, 255, 255),
+                        4)
+            cv2.moveWindow('Output', 0, 600)
+        pressed_key = cv2.waitKey(1)
+        if pressed_key == ord('q'):
+                rospy.logdebug('Quit triggered by user pressing q')
+                self.openpose_runner.stop()
+        elif pressed_key == ord('r'):
+                rospy.logdebug('Reset triggered by user pressing r')
+                rospy.Publisher('i_believe_i_can_fly', ResetMsg, queue_size = 1).publish(ResetMsg())
         cv2.imshow('Output', image)
 
     def publish(self, skeleton):

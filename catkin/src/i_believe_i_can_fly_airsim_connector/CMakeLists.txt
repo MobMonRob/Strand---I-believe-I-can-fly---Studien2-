@@ -5,6 +5,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   airsim
+  i_believe_i_can_fly_common
   i_believe_i_can_fly_pose_detection
 )
 
@@ -13,6 +14,7 @@ catkin_package(
   rospy
   std_msgs
   airsim
+  i_believe_i_can_fly_common
   i_believe_i_can_fly_pose_detection
 )
 

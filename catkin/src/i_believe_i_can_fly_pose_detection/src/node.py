@@ -7,6 +7,7 @@ from fuzzy_controller_2D import FuzzyController2D
 from point import Point
 from skeleton import Skeleton
 from pose import Pose
+from i_believe_i_can_fly_common.msg import Reset as ResetMsg
 from i_believe_i_can_fly_person_detection.msg import Skeleton as SkeletonMsg
 from i_believe_i_can_fly_pose_detection.msg import Calibration as CalibrationMsg
 from i_believe_i_can_fly_pose_detection.msg import Instruction as InstructionMsg
@@ -26,13 +27,15 @@ def init_node():
     global publisher_calibration, publisher_instructions, calibrator_2D, fuzzy_controller_2D
 
     rospy.init_node('i_believe_i_can_fly_pose_detection',
-                    log_level = (rospy.DEBUG if rospy.get_param('/i_believe_i_can_fly_pose_detection/debug') else rospy.ERROR))
+                    log_level = (
+                        rospy.DEBUG if rospy.get_param('/i_believe_i_can_fly_pose_detection/debug') else rospy.ERROR))
     publisher_instructions = rospy.Publisher('flight_instructions', InstructionsMsg, queue_size = 10)
     publisher_calibration = rospy.Publisher('calibration_status', CalibrationMsg, queue_size = 10)
-    calibrator_2D = Calibrator2D(publisher_calibration)
-    fuzzy_controller_2D = FuzzyController2D()
+    rospy.Subscriber('i_believe_i_can_fly', ResetMsg, reset)
 
     if rospy.get_param('/i_believe_i_can_fly_pose_detection/mode') == '2D':
+        calibrator_2D = Calibrator2D(publisher_calibration)
+        fuzzy_controller_2D = FuzzyController2D()
         rospy.Subscriber('person_detection', SkeletonMsg, detect_pose_2D)
     else:
         rospy.logerr('Invalid mode detected! Allowed values are: \'2D\'')
@@ -114,6 +117,16 @@ def publish_instructions(instructions):
     for key in instructions:
         converted_instructions.append(InstructionMsg(instruction = key, intensity = instructions[key]))
     publisher_instructions.publish(InstructionsMsg(instructions = converted_instructions))
+
+
+def reset(reset_msg):
+    """
+    Resets state of this ROS node.
+    """
+    global calibrator_2D
+
+    rospy.logdebug('Received reset command. Resetting ...')
+    calibrator_2D.reset_calibration()
 
 
 if __name__ == '__main__':

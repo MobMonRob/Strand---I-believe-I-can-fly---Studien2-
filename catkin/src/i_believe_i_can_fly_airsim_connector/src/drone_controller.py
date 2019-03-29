@@ -104,6 +104,13 @@ class DroneController:
         """
         self.client.simPrintLogMessage(message, severity = severity)
 
+    def reset_position(self):
+        """
+        Resets position of the drone and disables API control.
+        """
+        self.client.reset()
+        self.client.enableApiControl(False)
+
     def release_control(self):
         """
         Releases API control of drone.
