@@ -1,15 +1,24 @@
 <launch>
 	<arg name="debug" default="false" />
 	<arg name="mode" default="2D" />
+	<arg name="output" default="simulator" />
 
+    <!-- Input -->
 	<node name="i_believe_i_can_fly_person_detection" pkg="i_believe_i_can_fly_person_detection" type="node.py" respawn="true">
 		<param name="debug" value="$(arg debug)" />
 	</node>
+
+	<!-- Processing -->
 	<node name="i_believe_i_can_fly_pose_detection"   pkg="i_believe_i_can_fly_pose_detection" 	 type="node.py" respawn="true">
 		<param name="debug" value="$(arg debug)" />
 		<param name="mode" value="$(arg mode)" />
 	</node>
-	<node name="i_believe_i_can_fly_airsim_connector" pkg="i_believe_i_can_fly_airsim_connector" type="node.py" respawn="true">
+
+    <!-- Output -->
+	<node name="i_believe_i_can_fly_airsim_connector" pkg="i_believe_i_can_fly_airsim_connector" type="node.py" respawn="true" if="$(eval output == 'simulator')">
+		<param name="debug" value="$(arg debug)" />
+	</node>
+	<node name="i_believe_i_can_fly_drone_connector" pkg="i_believe_i_can_fly_drone_connector" type="node.py" respawn="true" if="$(eval output == 'drone')">
 		<param name="debug" value="$(arg debug)" />
 	</node>
 </launch>
