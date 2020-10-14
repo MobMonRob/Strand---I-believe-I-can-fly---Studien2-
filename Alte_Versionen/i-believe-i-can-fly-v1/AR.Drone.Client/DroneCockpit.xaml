@@ -1,0 +1,26 @@
+﻿<Page x:Class="AR.Drone.Client.DroneCockpit"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:hud="clr-namespace:AR.Drone.Client.HUD"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      Loaded="Cockpit_Loaded"
+      Unloaded="Page_Unloaded"
+	Title="DroneCockpit">
+
+    <Page.Resources>
+        <Style TargetType="{x:Type Image}">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Viewbox Grid.Row="0" Stretch="Uniform" SnapsToDevicePixels="True">
+            <Grid Name="MainGrid" Width="640" Height="360">
+                <Image Name="Image" />
+                <hud:HUDViewer x:Name="HudViewer" />
+            </Grid>
+        </Viewbox>
+    </Grid>
+</Page>

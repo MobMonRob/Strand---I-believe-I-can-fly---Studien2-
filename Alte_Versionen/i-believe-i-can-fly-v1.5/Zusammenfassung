@@ -1,0 +1,25 @@
+Erkenntnisse und Hinweise für "I believe I can fly" und AirSim
+
+Das vorherige Studienprojekt funktioniert einwandfrei, allerdings komplett nur unter Ubuntu 14.04 und mit ROS Indigo. AirSim unter Ubuntu 14.04 zu installieren ist scheinbar möglich, aber eher schwierig und mit Aufwand verbunden. Daher sollte das Projekt entweder zu 16.04 migriert werden, oder aber das ROS Projekt wird über zwei PCs geteilt, wobei der eine für das Tracking und die Gestenerkennung zuständig ist und die Steuerungsbefehle an den anderen übergibt. Für den zweiten PC gibt es dann folgenden Möglichkeiten:
+
+Ubuntu 16.04 
+ - Unreal Engine und AirSim lassen sich hier relativ gut installieren, allerdings wird an der Version aktuell noch gebastelt und es kann zu vorübergehenden Fehlern kommen, was bei mir der Fall war.
+ - Neue UE Projekte können unter Linux nicht kompiliert werden, da es den Unreal Launcher dort nicht gibt. Man kann Projekte aber unter Windows kompilieren und auf Linux übertragen. 
+
+Windows
+ - Hier ist die UE und AirSim leichter zu installieren und funktioniert zuverlässiger, aber dafür ist ROS nicht für Windows gemacht, sollte für diesen Zweck aber genügen.
+
+
+Sonstiges:
+ - Eine ROS Integration für AirSim wurde schon mehrmals diskutiert und soll wohl irgendwann erscheinen. Aktuell gibt es einige Ansätze, aber nichts fertiges.
+ - Nach wie vor stellt sich die Frage, wie man die die erkannten Gesten in AirSim Befehle übersetzt und sie dorthin überträgt. Eventuell funktioniert eine Keyboard Simulation durch ROS, mit der sich die Drohne steuern lässt, dies wäre aber eine eher primitive Steuerung und würde kein authentisches "Fliegegefühl" bedeuten.
+ - Rückfragen zu AirSim kann man gut auf GitHub stellen, "sytelus", ein Microsoft-Angestellter und andere User antworten zeitnah.
+
+https://github.com/Microsoft/AirSim
+
+Notizen zu Computern:
+ThinkPad: 
+ - Windows 10; Unreal Engine mit Landscape Demo; Passwort: student
+ - Ubuntu 14.04; ROS Indigo; volles, funktionierendes "I believe I can fly Projekt"; Passwort:Student
+
+msi Gaming PC: Ubuntu 16.04; UnrealEngine; AirSim; Passwort: Student

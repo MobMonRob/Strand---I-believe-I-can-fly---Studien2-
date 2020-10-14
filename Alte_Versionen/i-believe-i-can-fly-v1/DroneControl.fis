@@ -1,0 +1,144 @@
+[System]
+Name='DroneControl'
+Type='mamdani'
+Version=2.0
+NumInputs=4
+NumOutputs=4
+NumRules=34
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='backward'
+Range=[-1 1]
+NumMFs=7
+MF1='strongForward':'trapmf',[-2 -2 -0.9 -0.6]
+MF2='mediumForward':'trapmf',[-0.9 -0.65 -0.55 -0.3]
+MF3='weekForward':'trapmf',[-0.6 -0.35 -0.25 0]
+MF4='weekBackward':'trapmf',[0 0.25 0.35 0.6]
+MF5='mediumBackward':'trapmf',[0.3 0.55 0.65 0.9]
+MF6='strongBackward':'trapmf',[0.6 0.9 2 2]
+MF7='zero':'trimf',[-0.2 0 0.2]
+
+[Input2]
+Name='sideward'
+Range=[-1 1]
+NumMFs=7
+MF1='strongLeft':'trapmf',[-2 -2 -0.9 -0.6]
+MF2='mediumLeft':'trapmf',[-0.9 -0.65 -0.55 -0.3]
+MF3='weekLeft':'trapmf',[-0.6 -0.35 -0.25 0]
+MF4='weekRight':'trapmf',[0 0.25 0.35 0.6]
+MF5='mediumRight':'trapmf',[0.3 0.55 0.65 0.9]
+MF6='strongRight':'trapmf',[0.6 0.9 2 2]
+MF7='zero':'trimf',[-0.2 0 0.2]
+
+[Input3]
+Name='up'
+Range=[-1 1]
+NumMFs=7
+MF1='strongDown':'trapmf',[-2 -2 -0.9 -0.6]
+MF2='mediumDown':'trapmf',[-0.9 -0.65 -0.55 -0.3]
+MF3='weekDown':'trapmf',[-0.6 -0.35 -0.25 0]
+MF4='weekUp':'trapmf',[0 0.25 0.35 0.6]
+MF5='mediumUp':'trapmf',[0.3 0.55 0.65 0.9]
+MF6='strongUp':'trapmf',[0.6 0.9 2 2]
+MF7='zero':'trimf',[-0.2 0 0.2]
+
+[Input4]
+Name='rotation'
+Range=[-1 1]
+NumMFs=7
+MF1='strongLeft':'trapmf',[-2 -2 -0.9 -0.6]
+MF2='mediumLeft':'trapmf',[-0.9 -0.65 -0.55 -0.3]
+MF3='weekLeft':'trapmf',[-0.6 -0.35 -0.25 0]
+MF4='weekRight':'trapmf',[0 0.25 0.35 0.6]
+MF5='mediumRight':'trapmf',[0.3 0.55 0.65 0.9]
+MF6='strongRight':'trapmf',[0.6 0.9 2 2]
+MF7='zero':'trimf',[-0.2 0 0.2]
+
+[Output1]
+Name='backwardSpeed'
+Range=[-1 1]
+NumMFs=7
+MF1='strongForward':'trapmf',[-2 -2 -0.9 -0.6]
+MF2='mediumForward':'trapmf',[-0.9 -0.65 -0.55 -0.3]
+MF3='weekForward':'trapmf',[-0.6 -0.35 -0.25 0]
+MF4='weekBackward':'trapmf',[0 0.25 0.35 0.6]
+MF5='mediumBackward':'trapmf',[0.3 0.55 0.65 0.9]
+MF6='strongBackward':'trapmf',[0.6 0.9 2 2]
+MF7='zero':'trimf',[-0.2 0 0.2]
+
+[Output2]
+Name='sidewardSpeed'
+Range=[-1 1]
+NumMFs=7
+MF1='strongLeft':'trapmf',[-2 -2 -0.9 -0.6]
+MF2='mediumLeft':'trapmf',[-0.9 -0.65 -0.55 -0.3]
+MF3='weekLeft':'trapmf',[-0.6 -0.35 -0.25 0]
+MF4='weekRight':'trapmf',[0 0.25 0.35 0.6]
+MF5='mediumRight':'trapmf',[0.3 0.55 0.65 0.9]
+MF6='strongRight':'trapmf',[0.6 0.9 2 2]
+MF7='zero':'trimf',[-0.2 0 0.2]
+
+[Output3]
+Name='upSpeed'
+Range=[-1 1]
+NumMFs=7
+MF1='strongDown':'trapmf',[-2 -2 -0.9 -0.6]
+MF2='mediumDown':'trapmf',[-0.9 -0.65 -0.55 -0.3]
+MF3='weekDown':'trapmf',[-0.6 -0.35 -0.25 0]
+MF4='weekUp':'trapmf',[0 0.25 0.35 0.6]
+MF5='mediumUp':'trapmf',[0.3 0.55 0.65 0.9]
+MF6='strongUp':'trapmf',[0.6 0.9 2 2]
+MF7='zero':'trimf',[-0.2 0 0.2]
+
+[Output4]
+Name='rotationSpeed'
+Range=[-1 1]
+NumMFs=7
+MF1='strongLeft':'trapmf',[-2 -2 -0.9 -0.6]
+MF2='mediumLeft':'trapmf',[-0.9 -0.65 -0.55 -0.3]
+MF3='weekLeft':'trapmf',[-0.6 -0.35 -0.25 0]
+MF4='weekRight':'trapmf',[0 0.25 0.35 0.6]
+MF5='mediumRight':'trapmf',[0.3 0.55 0.65 0.9]
+MF6='strongRight':'trapmf',[0.6 0.9 2 2]
+MF7='zero':'trimf',[-0.2 0 0.2]
+
+[Rules]
+1 1 0 0, 1 1 0 1 (1) : 1
+2 2 0 0, 2 2 0 2 (1) : 1
+3 3 0 0, 3 3 0 3 (1) : 1
+1 6 0 0, 1 6 0 6 (1) : 1
+2 5 0 0, 2 5 0 5 (1) : 1
+3 4 0 0, 3 4 0 4 (1) : 1
+5 0 0 0, 5 0 0 0 (1) : 1
+4 0 0 0, 4 0 0 0 (1) : 1
+6 0 0 0, 6 0 0 0 (1) : 1
+1 0 0 0, 1 0 0 0 (1) : 1
+2 0 0 0, 2 0 0 0 (1) : 1
+3 0 0 0, 3 0 0 0 (1) : 1
+0 1 0 0, 0 1 0 0 (1) : 1
+0 2 0 0, 0 2 0 0 (1) : 1
+0 3 0 0, 0 3 0 0 (1) : 1
+0 6 0 0, 0 6 0 0 (1) : 1
+0 5 0 0, 0 5 0 0 (1) : 1
+0 4 0 0, 0 4 0 0 (1) : 1
+0 0 1 0, 0 0 1 0 (1) : 1
+0 0 2 0, 0 0 2 0 (1) : 1
+0 0 3 0, 0 0 3 0 (1) : 1
+0 0 6 0, 0 0 6 0 (1) : 1
+0 0 5 0, 0 0 5 0 (1) : 1
+0 0 4 0, 0 0 4 0 (1) : 1
+0 0 0 1, 0 0 0 1 (1) : 1
+0 0 0 2, 0 0 0 2 (1) : 1
+0 0 0 3, 0 0 0 3 (1) : 1
+0 0 0 6, 0 0 0 6 (1) : 1
+0 0 0 5, 0 0 0 5 (1) : 1
+0 0 0 4, 0 0 0 4 (1) : 1
+7 0 0 0, 7 0 0 0 (1) : 1
+0 7 0 0, 0 7 0 0 (1) : 1
+0 0 7 0, 0 0 7 0 (1) : 1
+0 0 0 7, 0 0 0 7 (1) : 1

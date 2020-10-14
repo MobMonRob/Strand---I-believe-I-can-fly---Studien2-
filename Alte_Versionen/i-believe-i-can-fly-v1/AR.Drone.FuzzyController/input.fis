@@ -1,0 +1,126 @@
+[System]
+Name='input'
+Type='mamdani'
+Version=2.0
+NumInputs=4
+NumOutputs=4
+NumRules=32
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='sum'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='backward'
+Range=[-1 1]
+NumMFs=5
+MF1='strongForward':'trapmf',[-2 -2 -0.8 -0.4]
+MF2='mediumForward':'trapmf',[-0.9 -0.6 -0.4 0]
+MF3='mediumBackward':'trapmf',[0 0.4 0.6 0.9]
+MF4='strongBackward':'trapmf',[0.4 0.8 2 2]
+MF5='zero':'trapmf',[-0.6 -0.2 0.2 0.6]
+
+[Input2]
+Name='sideward'
+Range=[-1 1]
+NumMFs=5
+MF1='strongLeft':'trapmf',[-2 -2 -0.8 -0.4]
+MF2='mediumLeft':'trapmf',[-0.9 -0.6 -0.4 0]
+MF3='mediumRight':'trapmf',[0 0.4 0.6 0.9]
+MF4='strongRight':'trapmf',[0.4 0.8 2 2]
+MF5='zero':'trapmf',[-0.6 -0.2 0.2 0.6]
+
+[Input3]
+Name='up'
+Range=[-1 1]
+NumMFs=5
+MF1='strongDown':'trapmf',[-2 -2 -0.8 -0.4]
+MF2='mediumDown':'trapmf',[-0.9 -0.6 -0.4 0]
+MF3='mediumUp':'trapmf',[0 0.4 0.6 0.9]
+MF4='strongUp':'trapmf',[0.4 0.8 2 2]
+MF5='zero':'trapmf',[-0.6 -0.2 0.2 0.6]
+
+[Input4]
+Name='rotation'
+Range=[-1 1]
+NumMFs=5
+MF1='strongLeft':'trapmf',[-2 -2 -0.8 -0.4]
+MF2='mediumLeft':'trapmf',[-0.9 -0.6 -0.4 0]
+MF3='mediumRight':'trapmf',[0 0.4 0.6 0.9]
+MF4='strongRight':'trapmf',[0.4 0.8 2 2]
+MF5='zero':'trapmf',[-0.6 -0.2 0.2 0.6]
+
+[Output1]
+Name='backwardSpeed'
+Range=[-1 1]
+NumMFs=5
+MF1='strongForward':'trimf',[-1.2 -1 -0.7]
+MF2='mediumForward':'trapmf',[-1 -0.85 -0.6 -0.25]
+MF3='mediumBackward':'trapmf',[0.25 0.6 0.85 1]
+MF4='strongBackward':'trimf',[0.7 1 2.2]
+MF5='zero':'trapmf',[-0.8 -0.5 0.5 0.8]
+
+[Output2]
+Name='sidewardSpeed'
+Range=[-1 1]
+NumMFs=5
+MF1='strongLeft':'trimf',[-1.2 -1 -0.7]
+MF2='mediumLeft':'trapmf',[-1 -0.85 -0.6 -0.25]
+MF3='mediumRight':'trapmf',[0.25 0.6 0.85 1]
+MF4='strongRight':'trimf',[0.7 1 2.2]
+MF5='zero':'trapmf',[-0.8 -0.5 0.5 0.8]
+
+[Output3]
+Name='upSpeed'
+Range=[-1 1]
+NumMFs=5
+MF1='strongDown':'trimf',[-1.2 -1 -0.7]
+MF2='mediumDown':'trapmf',[-1 -0.85 -0.6 -0.25]
+MF3='mediumUp':'trapmf',[0.25 0.6 0.85 1]
+MF4='strongUp':'trimf',[0.7 1 2.2]
+MF5='zero':'trapmf',[-0.8 -0.5 0.5 0.8]
+
+[Output4]
+Name='rotationSpeed'
+Range=[-1 1]
+NumMFs=5
+MF1='strongLeft':'trimf',[-1.2 -1 -0.7]
+MF2='mediumLeft':'trapmf',[-1 -0.85 -0.6 -0.25]
+MF3='mediumRight':'trapmf',[0.25 0.6 0.85 1]
+MF4='strongRight':'trimf',[0.7 1 2.2]
+MF5='zero':'trapmf',[-0.8 -0.5 0.5 0.8]
+
+[Rules]
+1 0 0 0, 1 0 0 0 (1) : 1
+2 0 0 0, 2 0 0 0 (1) : 1
+3 0 0 0, 4 0 0 0 (1) : 1
+4 0 0 0, 4 0 0 0 (1) : 1
+5 0 0 0, 5 0 0 0 (1) : 1
+0 1 0 0, 0 1 0 0 (1) : 1
+0 2 0 0, 0 2 0 0 (1) : 1
+0 3 0 0, 0 3 0 0 (1) : 1
+0 4 0 0, 0 4 0 0 (1) : 1
+0 5 0 0, 0 5 0 0 (1) : 1
+3 0 0 0, 4 0 0 0 (1) : 1
+0 0 1 0, 0 0 1 0 (1) : 1
+0 0 2 0, 0 0 2 0 (1) : 1
+0 0 3 0, 0 0 3 0 (1) : 1
+0 0 4 0, 0 0 4 0 (1) : 1
+0 0 5 0, 0 0 5 0 (1) : 1
+0 0 0 1, 0 0 0 1 (1) : 1
+0 0 0 2, 0 0 0 2 (1) : 1
+0 0 0 3, 0 0 0 3 (1) : 1
+0 0 0 4, 0 0 0 4 (1) : 1
+0 0 0 5, 0 0 0 5 (1) : 1
+1 1 0 0, 1 1 0 1 (1) : 1
+2 2 0 0, 2 2 0 2 (1) : 1
+1 4 0 0, 1 4 0 4 (1) : 1
+2 3 0 0, 2 3 0 3 (1) : 1
+2 4 0 0, 2 4 0 4 (1) : 1
+2 1 0 0, 2 1 0 1 (1) : 1
+2 5 0 0, 2 5 0 5 (1) : 1
+1 5 0 0, 1 5 0 5 (1) : 1
+1 2 0 0, 1 2 0 1 (1) : 1
+1 3 0 0, 1 3 0 4 (1) : 1
+3 0 0 0, 3 0 0 0 (1) : 1

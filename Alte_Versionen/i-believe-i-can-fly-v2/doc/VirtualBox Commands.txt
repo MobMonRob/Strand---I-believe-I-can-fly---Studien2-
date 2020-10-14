@@ -1,0 +1,7 @@
+// Mount USB stick as VMDK file => Boot from USB stick in VM
+VBoxManage internalcommands createrawvmdk -filename <VMDK Filename> -rawdisk \\.\PhysicalDrive<Drive Number>
+
+// Resize VMDK file by converting to VDI
+VBoxManage clonehd "<VMDK Filename>" "<VDI Filename>" --format vdi
+VBoxManage modifyhd "<VDI Filename>" --resize 102400
+VBoxManage clonehd "<VDI Filename>" "<VMDK Filename>" --format vmdk

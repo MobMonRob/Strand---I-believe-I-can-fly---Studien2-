@@ -1,0 +1,25 @@
+----- SETUP - I BELIEVE I CAN FLY -----
+
+- Install Ubuntu 14.04
+- Install ROS indigo
+- create Workspace project_ws
+- Install tum_simulator (see instructions on github)
+	https://github.com/dougvk/tum_simulator
+- Install fuzzylite in project_ws
+	https://github.com/fuzzylite/fuzzylite
+- sudo apt-get install ros-indigo-openni-launch
+- Clone openni_tracker into project_ws
+	https://github.com/ros-drivers/openni_tracker
+- catkin_make (in project_ws)
+- Install NiTE v1.5.2.23
+	http://www.openni.ru/openni-sdk/openni-sdk-history-2/
+- Install OPENNI
+	http://wiki.ros.org/Robots/evarobot/Tutorials/indigo/Kinect
+- catkin_make (in project_ws)
+- Copy kinect_controller into project_ws
+- catkin_make
+
+If program crashes after taking off:
+- change fl::nan zu 0 as default value in main.cpp und FuzzyController.cpp if not already done
+If Drone is to slow:
+- alter speeds in kinect.cp2 (line 71 for forward speed)

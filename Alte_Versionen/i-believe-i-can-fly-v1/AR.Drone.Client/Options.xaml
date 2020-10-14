@@ -1,0 +1,71 @@
+﻿<Page x:Class="AR.Drone.Client.Options"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:k="http://schemas.microsoft.com/kinect/2013"
+      xmlns:local="clr-namespace:AR.Drone.Client.Controls"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Loaded="Page_Loaded"
+      Unloaded="Page_Unloaded"
+	Title="Options">
+
+    <Page.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF6595DC"/>
+            <GradientStop Color="#FF011B53" Offset="1"/>
+            <GradientStop Color="#FD1576EC" Offset="0.38"/>
+            <GradientStop Color="#FE0A4497" Offset="0.748"/>
+            <GradientStop Color="#FE3D85E3" Offset="0.139"/>
+        </LinearGradientBrush>
+    </Page.Background>
+
+    <Grid>
+        <Viewbox>
+            <local:MovingClouds/>
+        </Viewbox>
+        <k:KinectRegion Name="kinectRegion">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="8*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Viewbox>
+                    <k:KinectCircleButton FontFamily="Wingdings" Click="btnBackClicked" ContentForeground="#FFFF9600" Foreground="#FFFF9600" HorizontalAlignment="Left" VerticalAlignment="Top">&#x02C2;</k:KinectCircleButton>
+                </Viewbox>
+                <Viewbox  Grid.Row="1" Grid.ColumnSpan="3">
+                    <Viewbox.Effect>
+                        <DropShadowEffect BlurRadius="10" Direction="-45" ShadowDepth="5" Opacity="0.8"/>
+                    </Viewbox.Effect>
+                    <Label VerticalContentAlignment="Center" HorizontalAlignment="Left" Foreground="#FFFF9600" FontSize="6" >Sensitivity</Label>
+                </Viewbox>
+                <Viewbox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Top">
+                    <Viewbox.Effect>
+                        <DropShadowEffect BlurRadius="10" Direction="-45" ShadowDepth="5" Opacity="0.8"/>
+                    </Viewbox.Effect>
+                    <k:KinectScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                            <k:KinectCircleButton Foreground="#FFFF9600" Click="btnSensitivityClicked" x:Name="Button1">1</k:KinectCircleButton>
+                            <k:KinectCircleButton Foreground="#FFFF9600" Click="btnSensitivityClicked" x:Name="Button2">2</k:KinectCircleButton>
+                            <k:KinectCircleButton Foreground="#FFFF9600" Click="btnSensitivityClicked" x:Name="Button3">3</k:KinectCircleButton>
+                            <k:KinectCircleButton Foreground="#FFFF9600" Click="btnSensitivityClicked" x:Name="Button4">4</k:KinectCircleButton>
+                            <k:KinectCircleButton Foreground="#FFFF9600" Click="btnSensitivityClicked" x:Name="Button5">5</k:KinectCircleButton>
+                            <k:KinectCircleButton Foreground="#FFFF9600" Click="btnSensitivityClicked" x:Name="Button6">6</k:KinectCircleButton>
+                            <k:KinectCircleButton Foreground="#FFFF9600" Click="btnSensitivityClicked" x:Name="Button7">7</k:KinectCircleButton>
+                            <k:KinectCircleButton Foreground="#FFFF9600" Click="btnSensitivityClicked" x:Name="Button8">8</k:KinectCircleButton>
+                            <k:KinectCircleButton Foreground="#FFFF9600" Click="btnSensitivityClicked" x:Name="Button9">9</k:KinectCircleButton>
+                        </StackPanel>
+                    </k:KinectScrollViewer>
+                </Viewbox>
+            </Grid>
+        </k:KinectRegion>
+    </Grid>
+
+</Page>

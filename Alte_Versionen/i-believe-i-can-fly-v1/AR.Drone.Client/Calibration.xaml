@@ -1,0 +1,97 @@
+﻿<Page x:Class="AR.Drone.Client.CalibrationBinding.Calibration"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:k="http://schemas.microsoft.com/kinect/2013"
+      xmlns:local="clr-namespace:AR.Drone.Client.Controls"
+      xmlns:hud="clr-namespace:AR.Drone.Client.HUD.Controls"
+      Loaded="Page_Loaded"
+      Unloaded="Page_Unloaded"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300">
+
+    <Page.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF6595DC"/>
+            <GradientStop Color="#FF011B53" Offset="1"/>
+            <GradientStop Color="#FD1576EC" Offset="0.38"/>
+            <GradientStop Color="#FE0A4497" Offset="0.748"/>
+            <GradientStop Color="#FE3D85E3" Offset="0.139"/>
+        </LinearGradientBrush>
+    </Page.Background>
+    
+    <Page.Resources>
+        <Storyboard x:Key="animateCalibrationNeeded">
+            <DoubleAnimation BeginTime="0:0:2" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1" />
+            <ObjectAnimationUsingKeyFrames BeginTime="0:0:3" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Hidden</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+    
+    <Grid>
+        <Viewbox>
+            <local:MovingClouds/>
+        </Viewbox>
+        <k:KinectRegion Name="kinectRegion">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="0.4*"/>
+                    <ColumnDefinition Width="7.6*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <k:KinectSensorChooserUI Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Name="sensorChooserUi"/>
+                <Grid Name="CalibrationNeededPopup" Grid.Row="1" Grid.Column="2" Grid.RowSpan="2" Background="#D8FF9600" Margin="0,50" Visibility="Hidden">
+                    <Viewbox>
+                        <Label Name="lblCalibrationNeeded" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="4"></Label>
+                    </Viewbox>
+                </Grid>
+
+                <Viewbox Grid.Row="1" Grid.Column="2" Grid.RowSpan="2">
+                    <hud:KinectDepth x:Name="kinectDepth" Padding="0,0,0,150" >
+                        <hud:KinectDepth.Background>
+                            <ImageBrush ImageSource="Ressources/img/person.png"/>
+                        </hud:KinectDepth.Background>
+                    </hud:KinectDepth>
+                </Viewbox>
+                <Viewbox>
+                    <k:KinectCircleButton FontFamily="Wingdings" Click="btnBackClicked" ContentForeground="#FFFF9600" Foreground="#FFFF9600">&#x02C2;
+                    </k:KinectCircleButton>
+                </Viewbox>
+                <Viewbox Grid.Column="2">
+                    <k:KinectCircleButton Name="BtnRefresh" FontFamily="Segoe UI Symbol" Click="btnRefreshClicked" ContentForeground="#FF008500" Foreground="#FF00A000" Visibility="Hidden">&#xE149;</k:KinectCircleButton>
+                </Viewbox>
+                <Viewbox  Grid.Row="1">
+                    <Viewbox.Effect>
+                        <DropShadowEffect BlurRadius="10" Direction="-45" ShadowDepth="5" Opacity="0.8"/>
+                    </Viewbox.Effect>
+                    <Label VerticalContentAlignment="Center" HorizontalAlignment="Left" Foreground="#FFFF9600" FontSize="4" Content="Arm Length" Width="31" />
+                </Viewbox>
+                <Viewbox  Grid.Row="2">
+                    <Viewbox.Effect>
+                        <DropShadowEffect BlurRadius="10" Direction="-45" ShadowDepth="5" Opacity="0.8"/>
+                    </Viewbox.Effect>
+                    <Label VerticalContentAlignment="Center" HorizontalAlignment="Left" Foreground="#FFFF9600" FontSize="4" Content="Back Tilt" Width="31" />
+                </Viewbox>
+                <Viewbox  Grid.Row="1" Grid.Column="1">
+                    <local:DoneControl x:Name="ArmLengthStatus" Status="{Binding Path=ArmLengthStatus, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"/>
+                </Viewbox>
+                <Viewbox  Grid.Row="2" Grid.Column="1">
+                    <local:DoneControl x:Name="BackTiltStatus" Status="{Binding Path=BackTiltStatus, UpdateSourceTrigger=PropertyChanged}"/>
+                </Viewbox>
+            </Grid>
+        </k:KinectRegion>
+    </Grid>
+</Page>

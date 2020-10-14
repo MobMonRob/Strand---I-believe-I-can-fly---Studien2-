@@ -1,0 +1,9 @@
+<launch>
+    <arg name="debug" default="false" />
+    <arg name="mode" default="2D" />
+
+    <node pkg="i_believe_i_can_fly_pose_detection" name="i_believe_i_can_fly_pose_detection" type="node.py" output="screen">
+        <param name="debug" value="$(arg debug)" />
+        <param name="mode" value="$(arg mode)" />
+    </node>
+</launch>
