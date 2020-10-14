@@ -1,0 +1,36 @@
+﻿<UserControl
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:AR.Drone.Client.Controls" 
+    x:Class="AR.Drone.Client.Controls.Libra" 
+    mc:Ignorable="d">
+
+    <Canvas Width="94.96" Height="94.96" Margin="10">
+        <Canvas>
+            <Polygon Points="50.858,9.875 43.552,9.875 41.249,88.111 34.059,88.111 34.059,94.96 60.901,94.96 60.901,88.111 53.674,88.111       " FillRule="NonZero" Fill="#000000"/>
+            <Polygon Points="84.466,3.527 47.48,0 10.493,3.527 10.493,7.933 84.466,7.933   " FillRule="NonZero" Fill="#000000"/>
+            <Path Fill="#000000">
+                <Path.Data>
+                    <PathGeometry Figures="M77.618 73.962c8.575 0 15.526-3.996 15.526-8.928H62.091C62.091 69.966 69.042 73.962 77.618 73.962z" FillRule="NonZero"/>
+                </Path.Data>
+            </Path>
+            <Path Fill="#000000">
+                <Path.Data>
+                    <PathGeometry Figures="M64.876 62.617l12.514-34.83l12.512 34.83c0.269 0.744 0.971 1.207 1.72 1.207c0.204 0 0.414-0.033 0.617-0.105    c0.95-0.34 1.442-1.387 1.103-2.336L79.109 21.767c-0.262-0.727-0.948-1.211-1.719-1.211c-0.771 0-1.458 0.484-1.721 1.211    L61.438 61.382c-0.34 0.949 0.151 1.996 1.103 2.336C63.487 64.053 64.535 63.566 64.876 62.617z" FillRule="NonZero"/>
+                </Path.Data>
+            </Path>
+            <Path Fill="#000000">
+                <Path.Data>
+                    <PathGeometry Figures="M17.251 73.962c8.575 0 15.525-3.996 15.525-8.928H1.725C1.725 69.966 8.675 73.962 17.251 73.962z" FillRule="NonZero"/>
+                </Path.Data>
+            </Path>
+            <Path Fill="#000000">
+                <Path.Data>
+                    <PathGeometry Figures="M19.29 21.767c-0.262-0.727-0.948-1.211-1.72-1.211c-0.771 0-1.457 0.484-1.719 1.211L1.619 61.382    c-0.34 0.949 0.152 1.996 1.103 2.336c0.945 0.335 1.994-0.151 2.337-1.103l12.512-34.829l12.513 34.829    c0.269 0.744 0.971 1.207 1.72 1.207c0.204 0 0.414-0.032 0.617-0.104c0.95-0.34 1.442-1.387 1.103-2.336L19.29 21.767z" FillRule="NonZero"/>
+                </Path.Data>
+            </Path>
+        </Canvas>
+    </Canvas>
+</UserControl>

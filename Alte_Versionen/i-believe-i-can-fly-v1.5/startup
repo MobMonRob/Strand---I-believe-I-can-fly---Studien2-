@@ -1,0 +1,77 @@
+#!/bin/bash
+
+function getLocalIpAddress() {
+  foundip=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
+  if [ [[ -z "${foundip// }" ]] ]; then
+    echo "No IPv4 found! Using localhost instead..."
+    serverip="localhost"
+  else
+    echo "Found IPv4 $foundip. Using this IP for server startup..."
+    serverip=$foundip
+  fi
+}
+
+function sourceRosEnvironment() {
+  source /opt/ros/indigo/setup.bash
+}
+
+function sourceTumEnvironment() {
+  sourceRosEnvironment
+  source /home/informatikdhbw/workspaces/tum_simulator_ws/devel/setup.bash
+}
+
+function sourceProjectEnvironment() {
+  sourceRosEnvironment
+  source /home/informatikdhbw/workspaces/project_ws/devel/setup.bash
+}
+
+getLocalIpAddress
+rosMasterUri="http://$serverip:11311"
+rosHostname=$serverip
+
+export -f sourceRosEnvironment
+export -f sourceTumEnvironment
+export -f sourceProjectEnvironment
+export ROS_MASTER_URI="$rosMasterUri"
+export ROS_HOSTNAME="$rosHostname"
+
+echo "Starting server up at $rosMasterUri"
+
+# Start ROS Core instance
+gnome-terminal -x bash -c 'sourceRosEnvironment; roscore'
+sleep 1
+
+# Start tum simulator
+gnome-terminal -x bash -c 'sourceTumEnvironment; roslaunch cvg_sim_gazebo ardrone_testworld.launch'
+sleep 1
+
+# Start OpenNI launcher
+gnome-terminal -x bash -c 'sourceProjectEnvironment; roslaunch openni_launch openni.launch'
+sleep 1
+
+# Start Kinect controller
+gnome-terminal -x bash -c 'sourceProjectEnvironment; roslaunch kinect_controller controller.launch'
+sleep 1
+
+# The output camera
+gnome-terminal -x bash -c 'sourceRosEnvironment; rosrun image_view image_view image:=/ardrone/image_raw'
+sleep 1
+
+# The front camera
+gnome-terminal -x bash -c 'sourceRosEnvironment; rosrun image_view image_view image:=/ardrone/front/image_raw'
+sleep 1
+
+# The buttom camera
+# gnome-terminal -x bash -c 'sourceRosEnvironment; rosrun image_view image_view image:=/ardrone/bottom/image_raw'
+# sleep 1
+
+# The height sensor
+# gnome-terminal -x bash -c 'sourceRosEnvironment; rostopic echo /sonar_height'
+# sleep 1
+
+#The navigation info
+# gnome-terminal -x bash -c 'sourceRosEnvironment; rostopic echo /ardrone/navdata'
+# sleep 1
+
+# A launch file for joystick drivers and image view nodes
+# gnome-terminal -x bash -c 'sourceRosEnvironment; roslaunch cvg_sim_test demo_tool.launch'

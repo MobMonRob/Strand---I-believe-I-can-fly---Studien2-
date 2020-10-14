@@ -1,0 +1,43 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AR.Drone.Client.Controls" x:Class="AR.Drone.Client.Controls.RefreshControl" 
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Storyboard x:Key="returnToRoot">
+            <DoubleAnimation x:Name="returnToRoot" Storyboard.TargetName="myCanvas" Storyboard.TargetProperty="RenderTransform.(RotateTransform.Angle)"              				
+                    				To="180" />
+        </Storyboard>
+        <Storyboard x:Key="spinningAnimation" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetName="myCanvas" Storyboard.TargetProperty="RenderTransform.(RotateTransform.Angle)"              				
+                    				From="0" To="360" Duration="0:0:2" />
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Viewbox Stretch="Uniform" Name="LayoutRoot">
+        <Canvas x:Name="myCanvas" Width="29.124" Height="29.123" Canvas.Left="0" Canvas.Top="0" RenderTransformOrigin="0.5,0.5">
+            <Canvas.RenderTransform>
+                <RotateTransform Angle="0" x:Name="canvasRotation"></RotateTransform>
+            </Canvas.RenderTransform>
+            <Canvas x:Name="g3403">
+                <Canvas.RenderTransform>
+                    <MatrixTransform Matrix="0.70094504 0.71321529 -0.71321529 0.70094504 14.739791 -6.0308853"/>
+                </Canvas.RenderTransform>
+                <Canvas x:Name="g3405">
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Fill="{Binding Fill}">
+                        <Path.Data>
+                            <PathGeometry Figures="m 7.922 7.938 c 3.215 -3.215 8.132 -3.674 11.847 -1.402 -1.26 1.246 -2.711 2.702 -2.711 2.702 -1.017 1.219 0.125 1.922 0.705 1.904 l 6.788 -0.002 c 0.358 0 0.651 0.002 0.651 0.002 0 0 0.296 0 0.655 0 l 1.316 0 c 0.359 0 0.651 -0.293 0.652 -0.653 l 0 -9.335 C 27.867 0.3 26.929 -0.528 25.961 0.425 c 0 0 -1.602 1.561 -2.708 2.657 C 17.597 -1.05 9.623 -0.583 4.512 4.528 1.53 7.51 0.139 11.466 0.306 15.373 l 4.83 0 C 4.965 12.704 5.881 9.979 7.922 7.938 Z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                    <Path xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Fill="{Binding Fill}">
+                        <Path.Data>
+                            <PathGeometry Figures="m 23.987 13.75 c 0.171 2.669 -0.745 5.394 -2.786 7.435 -3.216 3.215 -8.131 3.674 -11.846 1.402 1.258 -1.246 2.71 -2.703 2.71 -2.703 1.016 -1.219 -0.125 -1.922 -0.705 -1.902 l -6.789 0.002 c -0.358 0 -0.651 -0.002 -0.651 -0.002 0 0 -0.296 0 -0.655 0 l -1.319 0 c -0.359 0 -0.651 0.293 -0.652 0.652 l 0 9.334 c -0.041 0.854 0.896 1.682 1.865 0.729 0 0 1.601 -1.561 2.708 -2.656 5.66 4.135 13.632 3.666 18.743 -1.444 2.98 -2.981 4.373 -6.938 4.207 -10.845 l -4.83 -0.002 0 0 z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                </Canvas>
+            </Canvas>
+        </Canvas>
+    </Viewbox>
+</UserControl>

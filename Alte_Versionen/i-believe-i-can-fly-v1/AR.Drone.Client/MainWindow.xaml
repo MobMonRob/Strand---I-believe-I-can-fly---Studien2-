@@ -1,0 +1,11 @@
+﻿<Window x:Name="Cockpit" x:Class="AR.Drone.Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:hud="clr-namespace:AR.Drone.Client.HUD"
+        Title="MainWindow" WindowStartupLocation="CenterScreen"
+        WindowState="Maximized" WindowStyle="None"
+        Loaded="Cockpit_Loaded"
+        Closed="Cockpit_Closed">
+       
+    <Frame Name="mainFrame" NavigationUIVisibility="Hidden" Navigated="mainFrame_Navigated"></Frame>
+</Window>

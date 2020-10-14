@@ -1,0 +1,335 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7A01F75D-FCED-4B32-9A61-A905EAB04415}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AR.Drone</RootNamespace>
+    <AssemblyName>AR.Drone</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Kinect, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Microsoft SDKs\Kinect\v1.8\Assemblies\Microsoft.Kinect.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration\ConfigurationReceiver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\ConfigurationTask.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\DroneConfiguration.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\Options\VideoCodec.cs" />
+    <Compile Include="Configuration\Section\AbstractConfigSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\Section\ConfigSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\Section\ControlConfigSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\Section\CustomConfigSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\Section\DetectConfigSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\Section\FlightplanConfigSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\Section\GeneralConfigSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\Section\GpsConfigSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\Section\LedsConfigSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\Section\NetworkConfigSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\Section\PicConfigSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\Section\RescueConfigSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\Section\SyslogConfigSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\Section\UserboxConfigSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Configuration\Section\VideoConfigSection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Control\Command\ARCommand.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Control\Command\BasicCommand.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Control\Command\CommandName.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Control\CommandSender.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Control\Command\ConfigCommand.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Control\Command\ConfigIdsCommand.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Control\Command\CtrlCommand.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Control\Command\MISCCommand.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Control\Command\Mode\BasicCommandMode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Control\Command\Mode\CtrlMode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Control\Command\Mode\ProgressiveCommandMode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Control\Command\ProgressivCommand.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Control\Command\TrimCommand.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Control\Command\WatchdogCommand.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Control\DroneController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DroneConstants.cs" />
+    <Compile Include="ErrorStateData.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="NavData\Data\def_ardrone_state_mask_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Math\matrix33_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Math\vector21_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Math\vector31_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\NavdataConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\NavdataPacket.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\navdata_option_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\navdata_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\navdata_tag_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\NavigationData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\NavigationPacketParser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_adc_data_frame_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_altitude_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_cks_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_demo_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_euler_angles_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_games_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_gyros_offsets_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_hdvideo_stream_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_kalman_pressure_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_magneto_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_phys_measures_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_pressure_raw_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_pwm_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_raw_measures_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_rc_references_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_references_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_time_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_trackers_send_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_trims_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_video_stream_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_vision_detect_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_vision_of_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_vision_perf_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_vision_raw_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_vision_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_watchdog_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_wifi_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\navdata_wind_speed_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\Options\velocities_t.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\States\CTRL_STATES.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\States\FLYING_STATES.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Data\States\NAVIGATION_STATE.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\NavdataAcquisition.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NavData\Wifi\WifiReceiver.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\Helper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Util\NativeMethods.cs" />
+    <Compile Include="Util\Worker.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Util\WorkFinishedEventArgs.cs" />
+    <Compile Include="Video\Data\DecodedVideoFrame.cs" />
+    <Compile Include="Video\Data\parrot_video_encapsulation_t.cs" />
+    <Compile Include="Video\Data\VideoFrame.cs" />
+    <Compile Include="Video\Data\parrot_video_encapsulation_frametypes_t.cs" />
+    <Compile Include="Video\FFmpegException.cs" />
+    <Compile Include="Video\VideoFrameDecoder.cs" />
+    <Compile Include="Video\VideoFrameReadyEventArgs.cs" />
+    <Compile Include="Video\VideoReceiver.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AR.Drone.WIFI\AR.Drone.WIFI.csproj">
+      <Project>{22994351-71fb-4771-be8c-9f127b42194a}</Project>
+      <Name>AR.Drone.WIFI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FFmpeg.AutoGen\FFmpeg.AutoGen\FFmpeg.AutoGen.csproj">
+      <Project>{a536b02a-b0b1-4753-8328-17369ef09976}</Project>
+      <Name>FFmpeg.AutoGen</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,12 @@
+# IDE
+.idea/
+
+# Catkin
+build/
+devel/
+install/
+src/CMakeLists.txt
+.catkin_workspace
+
+# Python
+*.pyc

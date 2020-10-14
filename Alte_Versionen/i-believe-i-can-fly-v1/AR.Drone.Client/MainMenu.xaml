@@ -1,0 +1,104 @@
+﻿<Page x:Class="AR.Drone.Client.MainMenu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:k="http://schemas.microsoft.com/kinect/2013"
+      xmlns:local="clr-namespace:AR.Drone.Client.Controls"
+      mc:Ignorable="d" 
+      Loaded="Page_Loaded"
+      Unloaded="Page_Unloaded"
+	Title="MainMenu"
+      KeyDown="Window_KeyDown">
+
+    <Page.Resources>
+        <Style x:Key="RefreshControlStyle" TargetType="local:RefreshControl">
+            <Setter Property="Fill" Value="#E5FFFFFF" />
+        </Style>
+    </Page.Resources>
+
+    <Page.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF6595DC"/>
+            <GradientStop Color="#FF011B53" Offset="1"/>
+            <GradientStop Color="#FD1576EC" Offset="0.38"/>
+            <GradientStop Color="#FE0A4497" Offset="0.748"/>
+            <GradientStop Color="#FE3D85E3" Offset="0.139"/>
+        </LinearGradientBrush>
+    </Page.Background>
+
+    <Grid>
+        <Viewbox>
+            <local:MovingClouds />
+        </Viewbox>
+        <k:KinectSensorChooserUI Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Name="sensorChooserUi" />
+
+        <k:KinectRegion Name="kinectRegion" Grid.Row="1">
+            <Viewbox>
+                <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="720">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox  Grid.ColumnSpan="3" Margin="20">
+                        <Grid>
+                            <k:KinectTileButton IsEnabled="False" x:Name="startFlyingTile" Label="Connecting..." Click="BtnStartFlyingClicked" LabelBackground="#33000000" Width="680" Height="380" BorderBrush="{x:Null}" Foreground="#FFB4B4B4">
+                                <k:KinectTileButton.Background>
+                                    <ImageBrush ImageSource="Ressources\img\drone.jpg"/>
+                                </k:KinectTileButton.Background>
+                                <local:RefreshControl x:Name="refreshCtrl" Width="180" IsSpinning="True" Style="{StaticResource RefreshControlStyle}" />
+                            </k:KinectTileButton>
+                        </Grid>          
+                    </Viewbox>
+                    <Viewbox  Grid.Row="1" Width="200" Height="Auto" Margin="10" >
+                        <k:KinectTileButton Label="Calibration" BorderBrush="{x:Null}" LabelBackground="#7F420000" Foreground="#FFB4B4B4" Click="btnCalibrationClicked">
+                            <k:KinectTileButton.Background>
+                                <RadialGradientBrush>
+                                    <GradientStop Color="#FFF72D00" Offset="0"/>
+                                    <GradientStop Color="#FF931B1B" Offset="1"/>
+                                    <GradientStop Color="#FFDA2409" Offset="0.496"/>
+                                </RadialGradientBrush>
+                            </k:KinectTileButton.Background>
+                            <Viewbox>
+                                <local:Libra/>
+                            </Viewbox>
+                        </k:KinectTileButton>
+                    </Viewbox>
+                    <Viewbox  Grid.Column="1" Grid.Row="1" Width="200" Height="Auto" Margin="10" >
+                        <k:KinectTileButton Label="Options" BorderBrush="{x:Null}" LabelBackground="#66000749" Foreground="#FFB4B4B4" Click="btnOptionsClicked">
+                            <k:KinectTileButton.Background>
+                                <RadialGradientBrush>
+                                    <GradientStop Color="#FF072F76" Offset="1"/>
+                                    <GradientStop Color="#FF1960A8"/>
+                                    <GradientStop Color="#FF174A89" Offset="0.442"/>
+                                </RadialGradientBrush>
+                            </k:KinectTileButton.Background>
+                            <Viewbox>
+                                <local:Options/>
+                            </Viewbox>
+                        </k:KinectTileButton>
+                    </Viewbox>
+                    <Viewbox  Grid.Column="2" Grid.Row="1" Width="200" Height="Auto" Margin="10" >
+                        <k:KinectTileButton Label="Exit" BorderBrush="{x:Null}" LabelBackground="#7F002E02" Foreground="#FFB4B4B4" Click="btnExitClicked">
+                            <k:KinectTileButton.Background>
+                                <RadialGradientBrush>
+                                    <GradientStop Color="#FF107010" Offset="1"/>
+                                    <GradientStop Color="#FF09AE09" Offset="0.008"/>
+                                    <GradientStop Color="#FF00B200" Offset="0.484"/>
+                                </RadialGradientBrush>
+                            </k:KinectTileButton.Background>
+                            <Viewbox>
+                                <local:Exit/>
+                            </Viewbox>
+                        </k:KinectTileButton>
+                    </Viewbox>
+                </Grid>
+            </Viewbox>
+        </k:KinectRegion>
+    </Grid>
+</Page>
