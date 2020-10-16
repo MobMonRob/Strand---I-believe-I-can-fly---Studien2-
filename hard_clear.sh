@@ -4,6 +4,8 @@ cd "$(dirname "$BASH_SOURCE")"
 
 read -rsp "sure?" -n 1 pause1
 
+echo ""
+
 #remove untracked files and folders
 git clean -d -ff -x &> /dev/null
 
